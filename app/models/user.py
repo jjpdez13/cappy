@@ -11,7 +11,8 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     # IF NECESSARY => figure out how to do "random" for employee id (except Mr. Krabs = 0000001)
-    employee_id = db.Column(db.Integer(7), nullable=False, unique=True)
+    employee_id = db.Column(db.Integer, nullable=False, unique=True)
+    username = db.Column(db.String(255), nullable=False, unique=True)
     first_name = db.Column(db.String(255), nullable=False, unique=False)
     last_name = db.Column(db.String(255), nullable=False, unique=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
@@ -32,6 +33,7 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'employee_id': self.employee_id,
+            'username': self.username,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email
