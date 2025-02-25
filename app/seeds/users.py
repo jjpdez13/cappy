@@ -4,16 +4,16 @@ from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+    krabs = User(
+        employee_id=1, email='money.krabs@kk.io', password='$money$')
+    squidward = User(
+        employee_id=2, email='mr.tentacles@kk.io', password='clarinet1')
+    spongebob = User(
+        employee_id=3, email='musclebob.buffpants@kk.io', password='GaryTheSnail<3')
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    db.session.add(krabs)
+    db.session.add(squidward)
+    db.session.add(spongebob)
     db.session.commit()
 
 

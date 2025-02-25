@@ -1,8 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -28,7 +28,7 @@ def login():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
+        user = User.query.filter(User.employee_id == form.data['employee_id']).first()
         login_user(user)
         return user.to_dict()
     return form.errors, 401
@@ -51,16 +51,18 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
-        )
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        return user.to_dict()
-    return form.errors, 401
+            user = User(
+                first_name=form.data['first_name'],
+                last_name=form.data['last_name'],
+                email=form.data['email'],
+                password=form.data['password']
+            )
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            response = user.to_dict(), 201
+            return response
+    return jsonify({"errors": form.errors}), 401
 
 
 @auth_routes.route('/unauthorized')
