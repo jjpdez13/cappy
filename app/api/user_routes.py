@@ -32,6 +32,8 @@ def get_profile():
     return jsonify({
         "id": user.id,
         "employee_id": user.employee_id,
+        "username": user.username,
+        "role": user.role,
         "first_name": user.first_name,
         "last_name": user.last_name,
         "email": user.email,
@@ -53,6 +55,8 @@ def update_profile():
         return jsonify({
             "id": user.id,
             "employee_id": user.employee_id,
+            "username": user.username,
+            "role": user.role,
             "first_name": user.first_name,
             "last_name": user.last_name,
             "email": user.email,
