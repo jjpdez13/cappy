@@ -31,7 +31,6 @@ def get_profile():
     user = current_user
     return jsonify({
         "id": user.id,
-        "employee_id": user.employee_id,
         "username": user.username,
         "role": user.role,
         "first_name": user.first_name,
@@ -54,7 +53,6 @@ def update_profile():
         db.session.commit()
         return jsonify({
             "id": user.id,
-            "employee_id": user.employee_id,
             "username": user.username,
             "role": user.role,
             "first_name": user.first_name,

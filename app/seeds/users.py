@@ -5,7 +5,6 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     krabs = User(
-        employee_id=1, 
         username="MoneyKrab$",
         role="Admin",
         first_name="Eugene",
@@ -15,7 +14,6 @@ def seed_users():
     krabs.password = '$money$'
     
     squidward = User(
-        employee_id=2, 
         username="SquiddyClarinet105",
         role="Cashier",
         first_name="Squidward",
@@ -25,7 +23,6 @@ def seed_users():
     squidward.password = 'clarinet1'
     
     spongebob = User(
-        employee_id=3, 
         username="MuscleBob300",
         role="Fry Cook",
         first_name="Spongebob",
