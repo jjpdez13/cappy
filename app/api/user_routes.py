@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify, request
-from flask_login import login_required, current_user
-from app.models import User, db
+from flask import Blueprint
+from flask_login import login_required
+from app.models import User
 
 user_routes = Blueprint('users', __name__)
 
@@ -23,43 +23,4 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
-
-# Profile routes
-@user_routes.route("/profile", methods=["GET"])
-@login_required
-def get_profile():
-    user = current_user
-    return jsonify({
-        "id": user.id,
-        "username": user.username,
-        "role": user.role,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-    })
-
-@user_routes.route("/profile", methods=["PUT"])
-@login_required
-def update_profile():
-    data = request.json
-    user = current_user
-
-    # Check if any fields were provided, otherwise use existing values
-    user.first_name = data.get("first_name", user.first_name)
-    user.last_name = data.get("last_name", user.last_name)
-    user.email = data.get("email", user.email)
-
-    try:
-        db.session.commit()
-        return jsonify({
-            "id": user.id,
-            "username": user.username,
-            "role": user.role,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
 
