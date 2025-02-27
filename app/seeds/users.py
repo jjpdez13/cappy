@@ -15,7 +15,7 @@ def seed_users():
     
     squidward = User(
         username="SquiddyClarinet105",
-        role="Cashier",
+        role="Employee",
         first_name="Squidward",
         last_name="Tentacles",
         email='squiddy1@kk.io'
@@ -24,7 +24,7 @@ def seed_users():
     
     spongebob = User(
         username="MuscleBob300",
-        role="Fry Cook",
+        role="Employee",
         first_name="Spongebob",
         last_name="Squarepants",
         email='musclebob.buffpants@kk.io'
