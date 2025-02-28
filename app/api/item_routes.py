@@ -20,7 +20,10 @@ def get_items():
 @login_required
 def add_item():
     data = request.get_json()
-    new_item = Item(name=data["name"])
+    new_item = Item(
+        name=data["name"], 
+        price=data["price"], 
+        menu_item_id=data["menu_item_id"])
     db.session.add(new_item)
     db.session.commit()
     return jsonify(new_item.to_dict()), 201
