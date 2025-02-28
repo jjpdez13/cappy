@@ -1,11 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .db import db, environment, SCHEMA
 
 
 class Item(db.Model):
     __tablename__ = 'items'
     
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+        
     id = db.Column(db.Integer, primary_key=True)
     menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'), nullable=False)
     name = db.Column(db.String(30), nullable=False)
@@ -14,3 +15,4 @@ class Item(db.Model):
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     
     menu = db.relationship('Menu', back_populates='items')
+    orders = db.relationship('Order', back_populates='item')
