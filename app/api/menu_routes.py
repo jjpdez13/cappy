@@ -1,7 +1,7 @@
 # cap/app/api/menu_routes.py
-from flask import Blueprint, request, jsonify, make_response
-from flask_login import login_required, current_user
-from app.models import db, Menu, MenuItem, Order
+from flask import Blueprint, request, jsonify
+from flask_login import login_required
+from app.models import db, Menu
 
 menu_routes = Blueprint('menus', __name__)
 
@@ -42,7 +42,7 @@ def update_menu(id):
 def delete_menu(id):
     menu = Menu.query.get(id)
     if not menu:
-        return jsonify({"error": "Menu category not found"})
+        return jsonify({"error": "Menu category not found"}), 404
     db.session.delete(menu)
     db.session.commit()
     return jsonify({"message": "Menu category deleted"}), 200
