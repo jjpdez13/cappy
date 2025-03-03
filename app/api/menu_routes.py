@@ -1,6 +1,6 @@
 # cap/app/api/menu_routes.py
 from flask import Blueprint, request, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import db, Menu
 
 menu_routes = Blueprint('menus', __name__)
@@ -9,9 +9,7 @@ menu_routes = Blueprint('menus', __name__)
 @menu_routes.route('/', methods=['GET'])
 @login_required
 def get_menu():
-    """
-    Query for all menus and returns them in a list of user dictionaries
-    """
+
     menus = Menu.query.all()
     return jsonify([menu.to_dict() for menu in menus]), 200
 
