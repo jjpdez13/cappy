@@ -9,9 +9,7 @@ item_routes = Blueprint('items', __name__)
 @item_routes.route('/', methods=['GET'])
 @login_required
 def get_items():
-    """
-    Query for all items and returns them in a list of user dictionaries
-    """
+
     items = Item.query.all()
     return jsonify([item.to_dict() for item in items]), 200
 
@@ -21,9 +19,12 @@ def get_items():
 def add_item():
     data = request.get_json()
     new_item = Item(
+        menu_id=data["menu_id"],
         name=data["name"], 
-        price=data["price"], 
-        menu_item_id=data["menu_item_id"])
+        price=data["price"],
+        category=data["category"],
+        is_active=data.get("is_active", True)
+        )
     db.session.add(new_item)
     db.session.commit()
     return jsonify(new_item.to_dict()), 201
@@ -36,4 +37,4 @@ def delete_item(id):
         return jsonify({"error": "Item not found"}), 404
     db.session.delete(item)
     db.session.commit()
-    return jsonify({"message": "Menu category deleted"}), 200
+    return jsonify({"message": "Menu item deleted"}), 200
