@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(255), nullable=False, unique=True)
-    role = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(255), nullable=False, default="Employee")
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
