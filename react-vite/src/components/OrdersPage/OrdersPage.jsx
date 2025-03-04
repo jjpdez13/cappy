@@ -13,6 +13,13 @@ const OrdersPage = () => {
 
   const ordersArr = Object.values(orders || {});
 
+  // Handler to delete order when marked complete
+  const handleCompleteOrder = (orderId) => {
+    dispatch(orderActions.removeOrder(orderId)).catch((err) =>
+      console.error("Error deleting order:", err)
+    );
+  };
+
   return (
     <div className="orders-list-container">
       <header className="orders-list-header">
@@ -23,24 +30,31 @@ const OrdersPage = () => {
           ordersArr.map((order) => (
             <li key={order.id} className="order-card">
               <h2>Order #{order.id}</h2>
-              <p><strong>Krustomer:</strong> {order.krustomer_name}</p>
-              <p><strong>Status:</strong> {order.status}</p>
+              <p>
+                <strong>Krustomer:</strong> {order.krustomer_name}
+              </p>
+              <p>
+                <strong>Status:</strong> {order.status}
+              </p>
               <ul className="order-items-list">
                 {order.items.length > 0 ? (
-                  order.items.map((item) => (
-                    <li key={item.id}>
-                      {item.name} - ${item.price.toFixed(2)}
-                    </li>
-                  ))
+                  order.items.map((item) => <li key={item.id}>{item.name}</li>)
                 ) : (
                   <li>No items in this order.</li>
                 )}
               </ul>
-              <p><strong>Total:</strong> ${order.total_price.toFixed(2)}</p>
+                  <p></p>
+              {/* Complete & Delete Order Button */}
+              <button
+                onClick={() => handleCompleteOrder(order.id)}
+                className="complete-order-btn"
+              >
+                Order UUUPPP SQUIDWARRRDDD!!!!
+              </button>
             </li>
           ))
         ) : (
-          <p>No orders available.</p>
+          <p>No active orders.</p>
         )}
       </ul>
     </div>

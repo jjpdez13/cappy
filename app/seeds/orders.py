@@ -10,13 +10,13 @@ def seed_orders():
 
     order_sandy = Order(
     krustomer_name="Sandy Cheeks",
-    status="completed"
+    status="pending"
     )
     order_sandy.items.append(krabby_patty)
 
     order_larry = Order(
     krustomer_name="Larry Lobster",
-    status="completed"
+    status="pending"
     )
     order_larry.items.append(kelp_shake)
 
