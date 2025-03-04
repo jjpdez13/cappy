@@ -13,32 +13,6 @@ def get_orders():
     orders = Order.query.all()
     return jsonify([order.to_dict() for order in orders]), 200
 
-# POST: Add items to an existing order
-@order_routes.route('/<int:id>', methods=['POST'])
-@login_required
-def add_to_order(id):
-    order = Order.query.get(id)
-    if not order:
-        return jsonify({"error": "Order not found"}), 404
-
-    data = request.get_json()
-
-    # Validate input
-    if "item_ids" not in data or not isinstance(data["item_ids"], list):
-        return jsonify({"error": "item_ids must be a list of item IDs"}), 400
-
-    # Query items based on the list of item_ids
-    new_items = Item.query.filter(Item.id.in_(data["item_ids"])).all()
-
-    if not new_items:
-        return jsonify({"error": "No valid items found"}), 400
-
-    # Add new items to the existing order
-    order.items.extend(new_items)
-    db.session.commit()
-
-    return jsonify(order.to_dict()), 200
-
 # POST: Add a new order to the list of orders
 @order_routes.route('/', methods=['POST'])
 @login_required
