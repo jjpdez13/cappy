@@ -5,6 +5,9 @@ import { RouterProvider } from "react-router-dom";
 import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
+import * as userActions from "./redux/users";
+import * as menuActions from "./redux/menus";
+
 import "./index.css";
 
 const store = configureStore();
@@ -12,6 +15,8 @@ const store = configureStore();
 if (import.meta.env.MODE !== "production") {
   window.store = store;
   window.sessionActions = sessionActions;
+  window.userActions = userActions;
+  window.menuActions = menuActions;
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
