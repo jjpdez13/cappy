@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import usersReducer from "./users";
 import menusReducer from "./menus";
 import itemsReducer from "./items";
+import ordersReducer from "./orders";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   users: usersReducer,
   menus: menusReducer,
   items: itemsReducer,
+  orders: ordersReducer,
 });
 
 let enhancer;

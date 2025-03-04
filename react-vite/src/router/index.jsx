@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import MenusPage from '../components/MenusPage';
 import ItemsPage from '../components/ItemsPage';
+import OrdersPage from '../components/OrdersPage';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "items",
         element: <ItemsPage />,
+      },
+      {
+        path: "orders",
+        element: <OrdersPage />,
       },
     ],
   },
