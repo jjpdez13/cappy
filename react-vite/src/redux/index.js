@@ -11,3 +11,6 @@ export { default as usersReducer } from "./users";
 
 export * as menuActions from "./menus";
 export { default as menusReducer } from "./menus";
+
+export * as itemActions from "./items";
+export { default as itemsReducer } from "./items";

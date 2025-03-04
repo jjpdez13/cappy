@@ -17,7 +17,7 @@ const MenusPage = () => {
   return (
     <div className="menu-list-container">
       <header className="menu-list-header">
-        <h1>Menus</h1>
+        <h1>Menu Categories</h1>
       </header>
       <ul className="menus-grid">
         {menusArr.length > 0 ? (

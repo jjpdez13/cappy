@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import MenusPage from '../components/MenusPage/MenusPage';
+import MenusPage from '../components/MenusPage';
+import ItemsPage from '../components/ItemsPage';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "menus",
         element: <MenusPage />,
+      },
+      {
+        path: "items",
+        element: <ItemsPage />,
       },
     ],
   },
