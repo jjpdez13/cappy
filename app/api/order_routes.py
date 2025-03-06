@@ -39,6 +39,35 @@ def add_to_order(id):
 
     return jsonify(order.to_dict()), 200
 
+# DELETE: Remove items from an existing order
+@order_routes.route('/<int:id>/remove-items', methods=['DELETE'])
+@login_required
+def remove_items_from_order(id):
+    order = Order.query.get(id)
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    data = request.get_json()
+
+    # Validate input
+    if "item_ids" not in data or not isinstance(data["item_ids"], list):
+        return jsonify({"error": "item_ids must be a list of item IDs"}), 400
+
+    # Filter out the items that are currently in the order
+    items_to_remove = [item for item in order.items if item.id in data["item_ids"]]
+
+    if not items_to_remove:
+        return jsonify({"error": "No matching items found in order"}), 400
+
+    # Remove the items
+    for item in items_to_remove:
+        order.items.remove(item)
+
+    db.session.commit()
+
+    return jsonify(order.to_dict()), 200
+
+
 # POST: Add a new order to the list of orders
 @order_routes.route('/', methods=['POST'])
 @login_required

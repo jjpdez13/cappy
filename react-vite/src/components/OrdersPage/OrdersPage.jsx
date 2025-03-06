@@ -13,7 +13,12 @@ const OrdersPage = () => {
 
   const ordersArr = Object.values(orders || {});
 
-  // Handler to delete order when marked complete
+  const handleRemoveItem = (orderId, itemId) => {
+    dispatch(orderActions.removeItemsFromOrder(orderId, [itemId])).catch(
+      (err) => console.error("Error removing item: ", err)
+    );
+  };
+
   const handleCompleteOrder = (orderId) => {
     dispatch(orderActions.removeOrder(orderId)).catch((err) =>
       console.error("Error deleting order:", err)
@@ -34,23 +39,32 @@ const OrdersPage = () => {
                 <strong>Krustomer:</strong> {order.krustomer_name}
               </p>
               <p>
-                <strong>Status:</strong> {order.status}
+                <strong>Status:</strong> {order.status} ...
+                {/* Complete & Delete Order Button */}
+                <button
+                  onClick={() => handleCompleteOrder(order.id)}
+                  className="complete-order-btn"
+                >
+                  Order UUUPPP SQUIDWARRRDDD!!!!
+                </button>
               </p>
               <ul className="order-items-list">
                 {order.items.length > 0 ? (
-                  order.items.map((item) => <li key={item.id}>{item.name}</li>)
+                  order.items.map((item) => (
+                    <li key={item.id}>
+                      {item.name}...
+                      <button
+                        onClick={() => handleRemoveItem(order.id, item.id)}
+                        className="remove-item-btn"
+                      >
+                        X
+                      </button>
+                    </li>
+                  ))
                 ) : (
                   <li>No items in this order.</li>
                 )}
               </ul>
-                  <p></p>
-              {/* Complete & Delete Order Button */}
-              <button
-                onClick={() => handleCompleteOrder(order.id)}
-                className="complete-order-btn"
-              >
-                Order UUUPPP SQUIDWARRRDDD!!!!
-              </button>
             </li>
           ))
         ) : (

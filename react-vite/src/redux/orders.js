@@ -7,6 +7,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_ORDERS = "orders/loadOrders";
 export const ADD_ORDER = "orders/addOrder";
 export const ADD_TO_ORDER = "orders/addToOrder";
+export const DELETE_FROM_ORDER = "orders/deleteFromOrder";
 export const UPDATE_STATUS = "orders/updateStatus";
 export const DELETE_ORDER = "orders/deleteOrder";
 
@@ -24,6 +25,11 @@ export const addOrder = (order) => ({
 
 export const addToOrder = (order) => ({
   type: ADD_TO_ORDER,
+  payload: order,
+});
+
+export const deleteFromOrder = (order) => ({
+  type: DELETE_FROM_ORDER,
   payload: order,
 });
 
@@ -75,7 +81,7 @@ export const addItemToOrder = (orderId, itemId) => async (dispatch) => {
   try {
     const res = await csrfFetch(`/api/orders/${orderId}`, {
       method: "POST",
-      body: JSON.stringify({ item_ids: [itemId] }), 
+      body: JSON.stringify({ item_ids: [itemId] }),
     });
 
     if (!res.ok) throw Error("Failed to add item to order");
@@ -86,6 +92,24 @@ export const addItemToOrder = (orderId, itemId) => async (dispatch) => {
   } catch (e) {
     console.error("Error adding item to order", e);
   }
+};
+
+// Remove Items from an Order
+export const removeItemsFromOrder = (orderId, itemIds) => async (dispatch) => {
+    try {
+        const res = await csrfFetch(`/api/orders/${orderId}/remove-items`, {
+            method: "DELETE",
+            body: JSON.stringify({ item_ids: itemIds }),
+        });
+
+        if (!res.ok) throw Error("Failed to remove items from order");
+
+        const updatedOrder = await res.json();
+        dispatch(deleteFromOrder(updatedOrder));
+        return updatedOrder;
+    } catch (e) {
+        console.error("Error removing items from order", e);
+    }
 };
 
 // Update Order Status (e.g., pending → completed)
@@ -151,6 +175,13 @@ const ordersReducer = (state = initialState, action) => {
     }
 
     case ADD_TO_ORDER: {
+      return {
+        ...state,
+        orders: { ...state.orders, [action.payload.id]: action.payload },
+      };
+    }
+
+    case DELETE_FROM_ORDER: {
       return {
         ...state,
         orders: { ...state.orders, [action.payload.id]: action.payload },

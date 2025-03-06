@@ -37,12 +37,16 @@ const ItemsPage = () => {
       return;
     }
 
-    // Extract item IDs for backend
     const itemIds = selectedItems.map((item) => item.id);
 
-    dispatch(orderActions.createOrder({ krustomer_name: krustomerName, item_ids: itemIds }));
+    dispatch(
+      orderActions.createOrder({
+        krustomer_name: krustomerName,
+        item_ids: itemIds,
+      })
+    );
 
-    // Reset form
+    // Reset the form after submission
     setKrustomerName("");
     setSelectedItems([]);
   };
@@ -83,11 +87,18 @@ const ItemsPage = () => {
             {selectedItems.map((item, index) => (
               <li key={index}>
                 {item.name}
-                <button className="remove-btn" onClick={() => handleRemoveItem(index)}>Remove</button>
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemoveItem(index)}
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
-          <button onClick={handleSubmitOrder} className="submit-btn">Submit Order</button>
+          <button onClick={handleSubmitOrder} className="submit-btn">
+            Submit Order
+          </button>
         </div>
       )}
     </div>
