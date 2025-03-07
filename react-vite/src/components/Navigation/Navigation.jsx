@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
+import SignupFormPage from "../SignupFormPage";
 
 function Navigation() {
   const user = useSelector((state) => state.session.user);
@@ -9,27 +10,39 @@ function Navigation() {
   return (
     <nav className="navbar">
       <ul className="nav-list">
-        <li>
-          <NavLink to="/" className="nav-link">Home</NavLink>
-        </li>
-
         {user && (
           <>
             <li>
-              <NavLink to="/menus" className="nav-link">Menus</NavLink>
+              <NavLink to="/" className="nav-link">
+                Home
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/items" className="nav-link">Items</NavLink>
+              <NavLink to="/menus" className="nav-link">
+                Menus
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/orders" className="nav-link">Orders</NavLink>
+              <NavLink to="/items" className="nav-link">
+                Items
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/orders" className="nav-link">
+                Orders
+              </NavLink>
             </li>
           </>
         )}
 
-        {/* Profile Button */}
-        <li className="profile-button">
+        {/* Profile/Login Button */}
+        <li className="profile-btn">
           <ProfileButton />
+        </li>
+
+        {/* Signup Button */}
+        <li className="signup-btn">
+          <SignupButton />
         </li>
       </ul>
     </nav>
