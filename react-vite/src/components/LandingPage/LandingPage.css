@@ -1,0 +1,62 @@
+/* 🔹 Landing Page Container */
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px;
+  }
+  
+  /* 🔹 Landing Page Title */
+  .landing-title {
+    font-size: 3.5rem; /* ✅ Bigger title */
+    color: #0457A0;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* 🔹 Centering and Resizing Text */
+  .landing-container p {
+    font-size: 1.4rem; /* ✅ Larger text */
+    max-width: 700px; /* ✅ Restricts width for better readability */
+    background-color: #93E9BE;
+    color: #FF4040; /* ✅ Bright Yellow */
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+  
+  /* 🔹 Landing Page Buttons */
+  .landing-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .landing-btn {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* 🔹 Login Button */
+  .landing-btn:first-child {
+    background-color: #0457A0; /* USAFA Blue */
+    color: white;
+  }
+  
+  /* 🔹 Signup Button */
+  .landing-btn:last-child {
+    background-color: #93E9BE; /* Seafoam Green */
+    color: #0457A0;
+  }
+  
+  /* 🔹 Hover Effect */
+  .landing-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }

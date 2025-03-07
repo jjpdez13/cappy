@@ -1,3 +1,106 @@
-.profile-dropdown {
-  position: absolute;
+/* 🔹 Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0457A0; /* ✅ USAFA Blue */
+  padding: 15px 20px;
+  color: #FFF56C; /* ✅ Bright Yellow for text */
+}
+
+/* 🔹 Crab Button */
+.crab-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 🔹 Crab Logo */
+.crab-logo {
+  width: 100px;
+  height: auto;
+}
+
+.crab-logo:hover {
+  transform: scale(1.1);
+}
+
+/* 🔹 Left Side: Dynamic Title */
+.nav-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #FFF56C; /* ✅ Bright Yellow for title */
+}
+
+/* 🔹 Navigation List */
+.nav-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* 🔹 Nav Links */
+.nav-link {
+  text-decoration: none;
+  color: #FFF56C;
+  font-size: 1.2rem;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  background-color: #26B9C8;
+}
+
+/* Right Side: Buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Profile & Signup Buttons */
+.profile-btn button, .signup-btn button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile-btn button {
+  background-color: #93E9BE;
+  color: #0457A0;
+}
+
+.signup-btn button {
+  background-color: #93E9BE;
+  color: #0457A0;
+}
+
+.profile-btn button:hover,
+.signup-btn button:hover {
+  background-color: #26B9C8;
+}
+
+/* Uncommon Buttons (Cancel/Delete) */
+.uncommon-btn {
+  background-color: #FF4040;
+  color: white;
+}
+
+.uncommon-btn:hover {
+  background-color: #AEAD0D;
+}
+
+/* Profile Emoji */
+.profile-emoji {
+  font-size: 2.2rem;
 }

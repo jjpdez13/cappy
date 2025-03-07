@@ -11,6 +11,7 @@ export default defineConfig((mode) => ({
       failOnError: mode === "production",
     }),
   ],
+  assetsInclude: ["**/*.PNG"],
   server: {
     open: true,
     proxy: {

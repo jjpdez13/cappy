@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
 import { sessionActions } from "../../redux";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
+import "./ProfileButton.css"; // ✅ Import styles
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -46,16 +46,27 @@ function ProfileButton() {
     closeMenu();
   };
 
+  // 🔹 Assign Emojis Based on Username
+  const emojiMap = {
+    "MoneyKrab$": "🦀",
+    "SquiddyClarinet105": "🦑",
+    "MuscleBob300": "🧽",
+    "Patrick": "⭐",
+  };
+
+  // Default emoji if not listed
+  const userEmoji = user ? emojiMap[user.username] || "👨‍🍳" : "❓";
+
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle /> Login
+      <button onClick={toggleMenu} className="profile-btn">
+        <span className="profile-emoji">{userEmoji}</span>
       </button>
       {showMenu && (
         <ul className="profile-dropdown" ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
+              <li>{userEmoji} {user.username}</li>
               <li>{user.email}</li>
               <li>
                 <button onClick={logout}>Log Out</button>

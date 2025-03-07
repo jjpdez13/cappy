@@ -1,0 +1,14 @@
+/* Profile Button */
+.profile-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Profile Emoji */
+  .profile-emoji {
+    font-size: 2.2rem;
+  }
