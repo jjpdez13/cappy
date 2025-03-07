@@ -1,14 +1,14 @@
-/* 🔹 Navbar Container */
+/* Navbar Container */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0457A0; /* ✅ USAFA Blue */
+  background-color: #0457A0;
   padding: 15px 20px;
-  color: #FFF56C; /* ✅ Bright Yellow for text */
+  color: #FFF56C;
 }
 
-/* 🔹 Crab Button */
+/* Crab Button */
 .crab-btn {
   background: none;
   border: none;
@@ -18,7 +18,7 @@
   align-items: center;
 }
 
-/* 🔹 Crab Logo */
+/* Crab Logo */
 .crab-logo {
   width: 100px;
   height: auto;
@@ -28,14 +28,14 @@
   transform: scale(1.1);
 }
 
-/* 🔹 Left Side: Dynamic Title */
+/* Left Side: Dynamic Title */
 .nav-title {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #FFF56C; /* ✅ Bright Yellow for title */
+  color: #FFF56C;
 }
 
-/* 🔹 Navigation List */
+/* Navigation List */
 .nav-list {
   display: flex;
   align-items: center;
@@ -45,7 +45,7 @@
   flex-grow: 1;
 }
 
-/* 🔹 Nav Links */
+/* Nav Links */
 .nav-link {
   text-decoration: none;
   color: #FFF56C;
