@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { itemActions, orderActions } from "../../redux";
+import PlanktonModal from "../PlanktonModal";
 import "./ItemsPage.css";
 
 const ItemsPage = () => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items.items);
-
-  const [krustomerName, setKrustomerName] = useState(""); // Name input
-  const [selectedItems, setSelectedItems] = useState([]); // List of selected items
+  const [krustomerName, setKrustomerName] = useState("");
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [planktonAlert, setPlanktonAlert] = useState(false);
+  const [planktonName, setPlanktonName] = useState("");
+  const planktonAliases = ["plankton", "sheldon", "evil genius", "tiny menace"];
 
   useEffect(() => {
-    dispatch(itemActions.getItems()); // Fetch items
+    dispatch(itemActions.getItems());
   }, [dispatch]);
 
   const itemsArr = Object.values(items || {});
@@ -34,6 +37,14 @@ const ItemsPage = () => {
     }
     if (selectedItems.length === 0) {
       alert("Please select at least one item!");
+      return;
+    }
+
+    // CHECK FOR PLANKTON BEFORE SUBMISSION
+    const lowerName = krustomerName.toLowerCase();
+    if (planktonAliases.some((alias) => lowerName.includes(alias))) {
+      setPlanktonAlert(true);
+      setPlanktonName(krustomerName);
       return;
     }
 
@@ -100,6 +111,14 @@ const ItemsPage = () => {
             Submit Order
           </button>
         </div>
+      )}
+
+      {/* PLANKTON ALERT */}
+      {planktonAlert && (
+        <PlanktonModal
+          planktonName={planktonName}
+          onClose={() => setPlanktonAlert(false)}
+        />
       )}
     </div>
   );
