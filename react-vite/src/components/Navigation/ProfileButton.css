@@ -12,3 +12,7 @@
   .profile-emoji {
     font-size: 2.2rem;
   }
+
+.auth-buttons button{
+    width: 75px;
+}

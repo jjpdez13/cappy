@@ -38,8 +38,9 @@
 
 /* Menu Buttons */
 .menu-button {
-  background-color: #93e9be;
-  color: #0457a0;
+  position: relative;
+  background-color: #0457a0;
+  color: #FFF56C;
   font-size: 1.3rem;
   font-weight: bold;
   padding: 10px 20px;
@@ -47,10 +48,12 @@
   cursor: pointer;
   border-radius: 5px;
   margin-bottom: 5px;
+  z-index: 100;
 }
 
 .menu-button:hover {
   opacity: 0.8;
+  transform: scale(1.05);
 }
 
 /* Description Box */
@@ -106,6 +109,7 @@
 .menu-actions button:hover {
   opacity: 0.8;
   color: #AEAD0D;
+  transform: scale(1.05);
 }
 
 .menu-edit-input {
@@ -131,6 +135,7 @@
   
   .add-btn:hover {
     opacity: 0.8;
+    transform: scale(1.05);
   }
 
   .menu-add-input {

@@ -75,6 +75,7 @@
   
   /* Remove Item Button (X) */
   .remove-item-btn {
+    position: relative;
     background-color: #ff4040;
     color: #FFF56C;
     font-weight: bold;
@@ -82,6 +83,7 @@
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
+    z-index: 100;
   }
   
   .remove-item-btn:hover {
@@ -93,6 +95,7 @@
     background-color: #0457a0;
     color: #fff56c;
     padding: 5px;
+    border: solid #FFF56C;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
@@ -111,7 +114,7 @@
     position: absolute;
     top: 4px;
     left: 10px;
-    background-color: #ff4040; /* Coral Red */
+    background-color: #ff4040;
     color: #fff56c;
     padding: 6px 10px;
     border: none;

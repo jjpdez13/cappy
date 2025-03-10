@@ -1,0 +1,59 @@
+/* Login Modal */
+.login-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #0457a0;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 350px;
+}
+
+/* Title */
+.login-modal h1 {
+  color: #FFF56C; /* USAFA Blue */
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Form Fields */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Inputs */
+.login-form input {
+  width: 93.5%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #0457a0;
+  border-radius: 5px;
+}
+
+/* Login modal button */
+.login-modal-btn {
+  background-color: #93e9be;
+  color: #0457a0;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-modal-btn:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+/* Error Messages */
+.error-message {
+  color: #ff4040;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}

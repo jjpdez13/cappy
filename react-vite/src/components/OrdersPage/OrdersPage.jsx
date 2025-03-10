@@ -19,7 +19,7 @@ const OrdersPage = () => {
     if (location.state?.fromItemsPage && ordersRef.current) {
       ordersRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [orders]);
+  }, [orders, location.state?.fromItemsPage]);
 
   const ordersArr = Object.values(orders || {});
 

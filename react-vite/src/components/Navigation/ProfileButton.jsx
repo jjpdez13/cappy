@@ -58,35 +58,31 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu} className="profile-btn">
-        <span className="profile-emoji">{userEmoji}</span>
-      </button>
-      {showMenu && (
+      {user ? (
+        <button onClick={toggleMenu} className="profile-btn">
+          <span className="profile-emoji">{userEmoji}</span>
+        </button>
+      ) : (
+        <div className="auth-buttons">
+          <OpenModalMenuItem
+            itemText={<button className="login-btn">Log In</button>}
+            onItemClick={closeMenu}
+            modalComponent={<LoginFormModal />}
+          />
+          <button onClick={demoLogin} className="demo-btn">Demo</button>
+        </div>
+      )}
+
+      {showMenu && user && (
         <ul className="profile-dropdown" ref={ulRef}>
-          {user ? (
-            <>
-              <li>{userEmoji} {user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
-            </>
-          ) : (
-            <>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-              <li>
-                <button onClick={demoLogin}>Demo</button>
-              </li>
-            </>
-          )}
+          <li>{userEmoji} {user.username}</li>
+          <li>{user.email}</li>
+          <li>
+            <button onClick={logout}>Log Out</button>
+          </li>
         </ul>
       )}
     </>
   );
 }
-
 export default ProfileButton;

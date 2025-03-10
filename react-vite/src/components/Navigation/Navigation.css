@@ -25,7 +25,7 @@
 }
 
 .crab-logo:hover {
-  transform: scale(1.1);
+  transform: scale(1.5);
 }
 
 /* Left Side: Dynamic Title */
@@ -49,14 +49,16 @@
 .nav-link {
   text-decoration: none;
   color: #FFF56C;
-  font-size: 1.2rem;
-  padding: 8px 15px;
+  font-size: 1.3rem;
+  padding: 6px 12px;
   border-radius: 5px;
-  transition: background-color 0.3s ease-in-out;
+  display: inline-block;
 }
 
 .nav-link:hover {
-  background-color: #26B9C8;
+  background-color: #93E9BE;
+  opacity: .8;
+  transform: scale(1.1);
 }
 
 /* Right Side: Buttons */
@@ -83,11 +85,14 @@
 .signup-btn button {
   background-color: #93E9BE;
   color: #0457A0;
+  margin-top: 4px;
+  height: 82px;
 }
 
 .profile-btn button:hover,
 .signup-btn button:hover {
   background-color: #26B9C8;
+  transform: scale(1.1);
 }
 
 /* Uncommon Buttons (Cancel/Delete) */
@@ -98,6 +103,7 @@
 
 .uncommon-btn:hover {
   background-color: #AEAD0D;
+  transform: scale(1.1);
 }
 
 /* Profile Emoji */
