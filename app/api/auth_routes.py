@@ -3,6 +3,7 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -49,14 +50,23 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
+    
+    print("CSRF Token:", request.cookies.get('csrf_token'))  
+    received_data = request.get_json()
+    print("🔥 Received Data from Frontend:", received_data) 
+    
     form['csrf_token'].data = request.cookies['csrf_token']
+    
+    if not form.validate_on_submit():
+        return jsonify({"errors": form.errors}), 401
+
     if form.validate_on_submit():
             user = User(
                 first_name=form.data['first_name'],
                 last_name=form.data['last_name'],
                 username=form.data['username'],
                 email=form.data['email'],
-                password=form.data['password'],
+                password=generate_password_hash(form.data['password']),
                 role=form.data.get('role', "Employee")
             )
             db.session.add(user)

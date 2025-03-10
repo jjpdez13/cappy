@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { sessionActions } from "../../redux";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
-import "./ProfileButton.css"; // ✅ Import styles
+import "./ProfileButton.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();

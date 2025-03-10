@@ -20,8 +20,8 @@
   .landing-container p {
     font-size: 1.4rem;
     max-width: 700px;
-    background-color: #93E9BE;
-    color: #FF4040;
+    background-color: #0457A0;
+    color: #FFF56C;
     line-height: 1.5;
     margin-bottom: 15px;
   }
@@ -45,13 +45,13 @@
   
   /* Login Button */
   .landing-btn:first-child {
-    background-color: #0457A0; /* USAFA Blue */
+    background-color: #0457A0;
     color: white;
   }
   
   /* Signup Button */
   .landing-btn:last-child {
-    background-color: #93E9BE; /* Seafoam Green */
+    background-color: #93E9BE;
     color: #0457A0;
   }
   
