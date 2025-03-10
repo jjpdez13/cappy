@@ -23,7 +23,7 @@ const MenusPage = () => {
   const handleEdit = async (menu) => {
     if (editMenu === menu.id && menuName !== menu.name) {
       const updatedMenu = await dispatch(
-        menuActions.editMenu(menu.id, {name: menuName })
+        menuActions.editMenu(menu.id, { name: menuName })
       );
 
       if (updatedMenu) setMenuName(updatedMenu.name);
@@ -52,7 +52,7 @@ const MenusPage = () => {
         <h1>Menu Categories</h1>
       </header>
 
-      {/* Admin-Only: Add New Menu */}
+      {/* Admin-Only: Add New Menu Input and Button */}
       {user?.role === "Admin" && (
         <div className="add-menu-container">
           <input
@@ -63,21 +63,28 @@ const MenusPage = () => {
             className="menu-add-input"
           />
           <button onClick={handleCreateMenu} className="add-btn">
-            Add a Menu
+            ADD
           </button>
         </div>
       )}
-
-      <ul className="menus-grid">
+      {/* Main */}
+      <ul className={`menus-grid ${user?.role === "Admin" ? "admin-view" : "employee-view"}`}>
         {menusArr.length > 0 ? (
           menusArr.map((menu) => (
             <li key={menu.id} className="menu-card">
-              <button onClick={() => navigate("/items")}>{menu.name}</button>
-              <p>
-                Click above to begin a {menu.name} order for your "Krustomer"!
-              </p>
+              <button
+                onClick={() => navigate("/items")}
+                className="menu-button"
+              >
+                {menu.name}
+              </button>
+              <div className="menu-description">
+                <p>
+                  Click ABOVE to begin a {menu.name} order for your "Krustomer"!
+                </p>
+              </div>
 
-              {/* Admin-only Edit & Delete Buttons */}
+              {/* Admin-only: Edit & Delete Menu Buttons */}
               {user?.role === "Admin" && (
                 <div className="menu-actions">
                   {editMenu === menu.id ? (
@@ -93,9 +100,9 @@ const MenusPage = () => {
                     </>
                   ) : (
                     <>
-                      <button onClick={() => setEditMenu(menu.id)}>Edit</button>
+                      <button onClick={() => setEditMenu(menu.id)}>EDIT</button>
                       <button onClick={() => handleDelete(menu.id)}>
-                        Delete
+                        DELETE
                       </button>
                     </>
                   )}

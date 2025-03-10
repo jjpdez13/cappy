@@ -1,0 +1,148 @@
+/* Menu List Container */
+.menu-list-container {
+  text-align: center;
+  padding: 30px;
+}
+
+/* Title */
+.menu-list-header h1 {
+  font-size: 2rem;
+  color: #0457a0;
+  margin-bottom: 20px;
+}
+
+/* Menu Grid Layout */
+.menus-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 100px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  margin-right: 25px;
+  padding: 0;
+}
+
+.employee-view {
+  margin-top: 75px;
+  gap: 130px;
+}
+
+/* Menu Cards (Container) */
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+/* Menu Buttons */
+.menu-button {
+  background-color: #93e9be;
+  color: #0457a0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.menu-button:hover {
+  opacity: 0.8;
+}
+
+/* Description Box */
+.menu-description {
+  background-color: #ff4040;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+/* Sections */
+.menu-card:nth-child(1) {
+  align-self: flex-start;
+  margin-top: -50px;
+}
+
+.menu-card:nth-child(2) {
+  align-self: center;
+  margin-top: 30px;
+}
+
+.menu-card:nth-child(3) {
+  align-self: flex-start;
+  margin-top: -50px;
+}
+
+/* Admin Menu Controls */
+.menu-actions {
+  position: relative;
+  z-index: 10;
+  margin-top: 10px;
+}
+
+.menu-actions button {
+  background-color: #0457a0;
+  color: #93e9be;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.menu-actions button:nth-child(2) {
+  background-color: #ff4040;
+  color: #FFF56C;
+}
+
+.menu-actions button:hover {
+  opacity: 0.8;
+  color: #AEAD0D;
+}
+
+.menu-edit-input {
+  width: 80%;
+  padding: 5px;
+  font-size: 1rem;
+  margin: 5px 0;
+  border: 1px solid #0457a0;
+  border-radius: 5px;
+}
+
+.add-btn {
+    background-color: #0457a0;
+    color: #93e9be;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .add-btn:hover {
+    opacity: 0.8;
+  }
+
+  .menu-add-input {
+    width: 250px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #0457a0;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .menu-add-input:focus {
+    border-color: #93e9be; /* Seafoam Green when focused */
+  }
