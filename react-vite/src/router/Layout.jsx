@@ -38,7 +38,7 @@ export default function Layout() {
             />
             {/* POOP! Message */}
             <div className="poop-message">
-              <span className="poop-highlight">“Always Remember, P. O. O. P. - </span>
+              <span className="poop-highlight">“Always remember, P. O. O. P. --- </span>
               <span className="poop-highlight">People Order Our Patties!"</span>
             </div>
           </>

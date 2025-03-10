@@ -7,6 +7,7 @@ import "./OrdersPage.css";
 const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
+  const user = useSelector((state) => state.session.user);
   const ordersRef = useRef(null);
   const location = useLocation();
 
@@ -34,6 +35,12 @@ const OrdersPage = () => {
     );
   };
 
+  const handleDeleteOrder = (orderId) => {
+    dispatch(orderActions.removeOrder(orderId)).catch((err) =>
+      console.error("Error deleting order:", err)
+    );
+  };
+
   return (
     <div className="orders-list-container">
       <header className="orders-list-header">
@@ -48,8 +55,9 @@ const OrdersPage = () => {
                 <strong>Krustomer:</strong> {order.krustomer_name}
               </p>
               <p>
-                <strong>Status:</strong> {order.status} ...
+                <strong>Status:</strong> {order.status}...<br></br>
                 {/* Complete & Delete Order Button */}
+                Tap when order READY:
                 <button
                   onClick={() => handleCompleteOrder(order.id)}
                   className="complete-order-btn"
@@ -61,12 +69,12 @@ const OrdersPage = () => {
                 {order.items.length > 0 ? (
                   order.items.map((item) => (
                     <li key={item.id}>
-                      {item.name}...
+                      {item.name}
                       <button
                         onClick={() => handleRemoveItem(order.id, item.id)}
                         className="remove-item-btn"
                       >
-                        X
+                        Out of Item
                       </button>
                     </li>
                   ))
@@ -74,6 +82,14 @@ const OrdersPage = () => {
                   <li>No items in this order.</li>
                 )}
               </ul>
+              {user?.role === "Admin" && (
+                <button
+                  onClick={() => handleDeleteOrder(order.id)}
+                  className="delete-order-btn"
+                >
+                  X
+                </button>
+              )}
             </li>
           ))
         ) : (
