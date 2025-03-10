@@ -1,15 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { orderActions } from "../../redux";
 import "./OrdersPage.css";
 
 const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
+  const ordersRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(orderActions.getOrders());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (location.state?.fromItemsPage && ordersRef.current) {
+      ordersRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [orders]);
 
   const ordersArr = Object.values(orders || {});
 
@@ -70,6 +79,7 @@ const OrdersPage = () => {
         ) : (
           <p>No active orders.</p>
         )}
+        <div ref={ordersRef}></div>
       </ul>
     </div>
   );

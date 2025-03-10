@@ -1,0 +1,139 @@
+/* Main container for Items and Order Summary */
+.order-container {
+    position: relative;
+    display: flex;
+    justify-content: center; /* Centers everything */
+    align-items: flex-start; /* Aligns items to the top */
+    gap: 80px; /* Space between Items and Order Summary */
+    margin-top: 30px;
+    z-index: 100;
+  }
+  
+  /* Items Grid (Left Side) */
+  .items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 50%;
+  }
+  
+  /* Individual Item Card */
+  .item-card {
+    text-align: center;
+  }
+  
+  /* Item Button */
+  .item-btn {
+    background-color: #0457A0; /* USAFA Blue */
+    color: #FFF56C; /* Bright Yellow */
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .item-btn:hover {
+    background-color: #26B9C8; /* Blue Green Hover */
+    transform: scale(1.05);
+  }
+  
+  .order-summary {
+    width: 300px; /* Set a fixed width */
+    max-height: 300px; /* Set a max height to prevent expansion */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: #93e9be; /* Seafoam Green */
+    color: #0457A0; /* USAFA Blue */
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Optional shadow */
+  }
+  
+  /* Style for each selected item inside the scrollable box */
+  .selected-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .selected-item {
+    background-color: #FFF56C; /* Bright Yellow */
+    color: #0457A0; /* USAFA Blue */
+    padding: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Scrollbar Styling (Optional for better UI) */
+  .order-summary::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .order-summary::-webkit-scrollbar-thumb {
+    background-color: #0457A0;
+    border-radius: 4px;
+  }
+  
+  /* Page Title */
+  .items-list-header h1 {
+    font-size: 2.5rem;
+    color: #0457A0; /* USAFA Blue */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Name Input */
+  .name-input {
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 300px;
+    border: 2px solid #0457A0; /* USAFA Blue */
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .name-input::placeholder {
+    color: #93E9BE; /* Seafoam Green */
+  }
+  
+  /* Remove Button */
+  .remove-btn {
+    background-color: #FF4040; /* Coral Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .remove-btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Submit Order Button */
+  .submit-btn {
+    background-color: #0457A0; /* USAFA Blue */
+    color: #FFF56C; /* Bright Yellow */
+    font-size: 1.3rem;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+    margin-top: 15px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #26B9C8; /* Blue Green Hover */
+    transform: scale(1.05);
+  }

@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { itemActions, orderActions } from "../../redux";
+import { useNavigate } from "react-router-dom";
 import PlanktonModal from "../PlanktonModal";
 import "./ItemsPage.css";
 
 const ItemsPage = () => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items.items);
+  const orderRef = useRef(null);
+  const navigate = useNavigate();
   const [krustomerName, setKrustomerName] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [planktonAlert, setPlanktonAlert] = useState(false);
@@ -16,6 +19,12 @@ const ItemsPage = () => {
   useEffect(() => {
     dispatch(itemActions.getItems());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (orderRef.current) {
+      orderRef.current.scrollTop = orderRef.current.scrollHeight;
+    }
+  }, [selectedItems]);
 
   const itemsArr = Object.values(items || {});
 
@@ -30,7 +39,7 @@ const ItemsPage = () => {
   };
 
   // Submit the order
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
     if (!krustomerName.trim()) {
       alert("Please enter a name!");
       return;
@@ -50,13 +59,20 @@ const ItemsPage = () => {
 
     const itemIds = selectedItems.map((item) => item.id);
 
-    dispatch(
+    const newOrder = await dispatch(
       orderActions.createOrder({
         krustomer_name: krustomerName,
         item_ids: itemIds,
       })
     );
 
+    if (newOrder) {
+      setKrustomerName("");
+      setSelectedItems([]);
+      setTimeout(() => {
+        navigate("/orders", { state: { fromItemsPage: true } });
+      }, 200);
+    }
     // Reset the form after submission
     setKrustomerName("");
     setSelectedItems([]);
@@ -78,40 +94,47 @@ const ItemsPage = () => {
       />
 
       {/* Item Selection */}
-      <ul className="items-grid">
-        {itemsArr.length > 0 ? (
-          itemsArr.map((item) => (
-            <li key={item.id} className="item-card">
-              <button onClick={() => handleAddItem(item)}>{item.name}</button>
-            </li>
-          ))
-        ) : (
-          <p>No items available.</p>
-        )}
-      </ul>
-
-      {/* Order Summary (Live Preview) */}
-      {selectedItems.length > 0 && (
-        <div className="order-summary">
-          <h2>Order Summary</h2>
-          <ul>
-            {selectedItems.map((item, index) => (
-              <li key={index}>
-                {item.name}
+      <div className="order-container">
+        <div className="items-grid">
+          {itemsArr.length > 0 ? (
+            itemsArr.map((item) => (
+              <div key={item.id} className="item-card">
                 <button
-                  className="remove-btn"
-                  onClick={() => handleRemoveItem(index)}
+                  onClick={() => handleAddItem(item)}
+                  className="item-btn"
                 >
-                  Remove
+                  {item.name}
                 </button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleSubmitOrder} className="submit-btn">
-            Submit Order
-          </button>
+              </div>
+            ))
+          ) : (
+            <p>No items available.</p>
+          )}
         </div>
-      )}
+
+        {/* Order Summary */}
+        {selectedItems.length > 0 && (
+          <div className="order-summary" ref={orderRef}>
+            <h2>Order Summary</h2>
+            <div className="selected-items">
+              {selectedItems.map((item, index) => (
+                <div key={index} className="selected-item">
+                  {item.name}
+                  <button
+                    className="remove-btn"
+                    onClick={() => handleRemoveItem(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button onClick={handleSubmitOrder} className="submit-btn">
+              Submit Order
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* PLANKTON ALERT */}
       {planktonAlert && (
