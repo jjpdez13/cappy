@@ -1,131 +1,138 @@
 /* Orders Page Container */
 .orders-list-container {
-    text-align: center;
-    padding: 30px;
-  }
-  
-  /* Title */
-  .orders-list-header h1 {
-    font-size: 2rem;
-    color: #0457a0;
-    margin-bottom: 20px;
-  }
-  
-  /* Orders Grid Layout */
-  .orders-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 0;
-    list-style: none;
-  }
-  
-  /* Individual Order Card */
-  .order-card {
-    position: relative;
-    background-color: #0457a0;
-    border-radius: 10px;
-    padding: 15px;
-    width: 80%;
-    max-width: 500px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border: 2px solid #93E9BE;
-  }
-  
-  /* Order Title */
-  .order-card h2 {
-    color: #fff56c;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  /* Order Details */
-  .order-card p {
-    font-size: 1.1rem;
-    color: #FFF56C;
-    margin: 5px 0;
-  }
-  
-  /* Order Status */
-  .order-card p strong {
-    color: #fff56c;
-  }
-  
-  /* Order Items List */
-  .order-items-list {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-  }
-  
-  .order-items-list li {
-    background-color: #93E9BE;
-    color: #0457a0;
-    padding: 8px 12px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    border: 1px solid #0457a0;
-  }
-  
-  /* Remove Item Button (X) */
-  .remove-item-btn {
-    position: relative;
-    background-color: #ff4040;
-    color: #FFF56C;
-    font-weight: bold;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    z-index: 100;
-  }
-  
-  .remove-item-btn:hover {
-    opacity: 0.8;
-  }
-  
-  /* Complete Order Button */
-  .complete-order-btn {
-    background-color: #0457a0;
-    color: #fff56c;
-    padding: 5px;
-    border: solid #FFF56C;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-left: 10px;
-    font-weight: bold;
-  }
-  
-  .complete-order-btn:hover {
-    background-color: #0264c8;
-    opacity: 0.9;
-  }
+  text-align: center;
+  padding: 30px;
+}
 
-  /* DELETE ORDER BUTTON - Only for Admin */
+/* Title */
+.orders-list-header h1 {
+  font-size: 2rem;
+  color: #0457a0;
+  margin-bottom: 20px;
+}
+
+/* Orders Grid Layout */
+.orders-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Individual Order Card */
+.order-card {
+  position: relative;
+  background-color: #0457a0;
+  border-radius: 10px;
+  padding: 15px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border: 2px solid #93e9be;
+}
+
+/* Order Title */
+.order-card h2 {
+  color: #fff56c;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Order Details */
+.order-card p {
+  font-size: 1.1rem;
+  color: #fff56c;
+  margin: 5px 0;
+}
+
+/* Order Status */
+.order-card p strong {
+  color: #fff56c;
+}
+
+/* Order Items List */
+.order-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.order-items-list li {
+  background-color: #93e9be;
+  color: #0457a0;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  border: 1px solid #0457a0;
+}
+
+/* Remove Item Button */
+.remove-item-btn {
+  position: relative;
+  background-color: #ff4040;
+  color: #fff56c;
+  font-weight: bold;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+/* ✅ Completed Item Checkmark */
+.complete-item-btn {
+  font-size: 1.5rem;
+  color: #26b9c8;
+  font-weight: bold;
+}
+
+.remove-item-btn:hover {
+  opacity: 0.8;
+}
+
+/* Complete Order Button */
+.complete-order-btn {
+  background-color: #0457a0;
+  color: #fff56c;
+  padding: 5px;
+  border: solid #fff56c;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.complete-order-btn:hover {
+  background-color: #0264c8;
+  opacity: 0.9;
+}
+
+/* DELETE ORDER BUTTON - Only for Admin */
 .delete-order-btn {
-    position: absolute;
-    top: 4px;
-    left: 10px;
-    background-color: #ff4040;
-    color: #fff56c;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .delete-order-btn:hover {
-    opacity: 0.8;
-    background-color: #d63030;
-  }
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  background-color: #ff4040;
+  color: #fff56c;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.delete-order-btn:hover {
+  opacity: 0.8;
+  background-color: #d63030;
+}
