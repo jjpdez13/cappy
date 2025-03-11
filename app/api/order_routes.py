@@ -74,24 +74,37 @@ def remove_items_from_order(id):
 def add_order():
     data = request.get_json()
 
+    # Validate input structure
+    if "items" not in data or not isinstance(data["items"], list):
+        return jsonify({"error": "items must be a list of objects with item_id and quantity"}), 400
 
-    if "item_ids" not in data or not isinstance(data["item_ids"], list):
-        return jsonify({"error": "item_ids must be a list of item IDs"}), 400
-
-
-    items = Item.query.filter(Item.id.in_(data["item_ids"])).all()
-
-    if not items:
-        return jsonify({"error": "No valid items found"}), 400
-
+    # Create a new order
     new_order = Order(
         krustomer_name=data.get("krustomer_name", "Krustomer"),
         status=data.get("status", "pending")
     )
 
-    new_order.items.extend(items)
-
     db.session.add(new_order)
+    db.session.commit()  # Commit here to generate order ID
+
+    # Process each item with quantity
+    for item_data in data["items"]:
+        item_id = item_data.get("item_id")
+        quantity = item_data.get("quantity", 1)  # Default to 1 if quantity is missing
+
+        item = Item.query.get(item_id)
+        if not item:
+            return jsonify({"error": f"Item with ID {item_id} not found"}), 400
+
+        # Add the item to the order with the specified quantity
+        db.session.execute(
+            """
+            INSERT INTO order_items (order_id, item_id, quantity)
+            VALUES (:order_id, :item_id, :quantity)
+            """,
+            {"order_id": new_order.id, "item_id": item_id, "quantity": quantity}
+        )
+
     db.session.commit()
 
     return jsonify(new_order.to_dict()), 201

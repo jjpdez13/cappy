@@ -57,12 +57,25 @@ const ItemsPage = () => {
       return;
     }
 
-    const itemIds = selectedItems.map((item) => item.id);
+    const itemsWithQuantities = selectedItems.reduce((acc, item) => {
+      const existingItem = acc.find((i) => i.item_id === item.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        acc.push({ item_id: item.id, quantity: 1 });
+      }
+      return acc;
+    }, []);
+
+    console.log("Submitting Order Payload:", {
+      krustomer_name: krustomerName,
+      items: itemsWithQuantities,
+    });
 
     const newOrder = await dispatch(
       orderActions.createOrder({
         krustomer_name: krustomerName,
-        item_ids: itemIds,
+        items: itemsWithQuantities,
       })
     );
 

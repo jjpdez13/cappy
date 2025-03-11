@@ -6,7 +6,6 @@ import ConfirmationModal from "../ConfirmationModal";
 import { useModal } from "../../context/Modal";
 import "./OrdersPage.css";
 
-
 const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
@@ -46,7 +45,7 @@ const OrdersPage = () => {
         message={`Are you sure you want to delete ${order.krustomer_name}'s order?`}
         onConfirm={() => dispatch(orderActions.removeOrder(order.id))}
       />
-    )
+    );
   };
 
   return (
@@ -75,17 +74,19 @@ const OrdersPage = () => {
               </p>
               <ul className="order-items-list">
                 {order.items.length > 0 ? (
-                  order.items.map((item) => (
-                    <li key={item.id}>
-                      {item.name}
-                      <button
-                        onClick={() => handleRemoveItem(order.id, item.id)}
-                        className="remove-item-btn"
-                      >
-                        Out of Item
-                      </button>
-                    </li>
-                  ))
+                  order.items.flatMap((item) =>
+                    Array.from({ length: item.quantity }, (_, index) => (
+                      <li key={`${order.id}-${item.id}-${index}`}>
+                        {item.name}
+                        <button
+                          onClick={() => handleRemoveItem(order.id, item.id)}
+                          className="remove-item-btn"
+                        >
+                          Out of Item
+                        </button>
+                      </li>
+                    ))
+                  )
                 ) : (
                   <li>No items in this order.</li>
                 )}
