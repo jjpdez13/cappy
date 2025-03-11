@@ -6,13 +6,13 @@ order_items = db.Table(
     db.Column(
         "order_id", 
         db.Integer, 
-        db.ForeignKey(f"{SCHEMA}.orders.id") if environment == "production" else db.ForeignKey("orders.id"),
+        db.ForeignKey(f"{SCHEMA}.orders.id", ondelete="CASCADE") if environment == "production" else db.ForeignKey("orders.id", ondelete="CASCADE"),
         primary_key=True
     ),
     db.Column(
         "item_id", 
         db.Integer, 
-        db.ForeignKey(f"{SCHEMA}.items.id") if environment == "production" else db.ForeignKey("items.id"),
+        db.ForeignKey(f"{SCHEMA}.items.id", ondelete="CASCADE") if environment == "production" else db.ForeignKey("items.id", ondelete="CASCADE"),
         primary_key=True
     ),
     db.Column(

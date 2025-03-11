@@ -3,6 +3,7 @@ from .users import seed_users, undo_users
 from .menus import seed_menus, undo_menus
 from .items import seed_items, undo_items
 from .orders import seed_orders, undo_orders
+from .order_items import undo_order_items
 
 from app.models.db import db, environment, SCHEMA
 
@@ -10,31 +11,28 @@ from app.models.db import db, environment, SCHEMA
 # So we can type `flask seed --help`
 seed_commands = AppGroup('seed')
 
-
 # Creates the `flask seed all` command
 @seed_commands.command('all')
 def seed():
     if environment == 'production':
-        # Before seeding in production, you want to run the seed undo 
-        # command, which will  truncate all tables prefixed with 
-        # the schema name (see comment in users.py undo_users function).
-        # Make sure to add all your other model's undo functions below
+        # Before seeding in production, undo all data first
+        undo_order_items()  # 🔹 Add this to clear the order_items table
         undo_users()
         undo_menus()
         undo_items()
         undo_orders()
+
+    # Now, seed all tables
     seed_users()
     seed_menus()
     seed_items()
     seed_orders()
-    # Add other seed functions here
-
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
+    undo_order_items()  # 🔹 Add this here too
     undo_users()
     undo_menus()
     undo_items()
     undo_orders()
-    # Add other undo functions here

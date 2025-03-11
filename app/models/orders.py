@@ -16,6 +16,11 @@ class Order(db.Model):
     items = db.relationship("Item", secondary=order_items, back_populates="orders")
 
     def to_dict(self):
+        order_item_quantities = { 
+            (row.order_id, row.item_id): row.quantity 
+            for row in db.session.query(order_items).filter(order_items.c.order_id == self.id).all()
+        }
+        
         return {
             "id": self.id,
             "krustomer_name": self.krustomer_name,
