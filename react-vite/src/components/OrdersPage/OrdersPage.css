@@ -88,9 +88,16 @@
 
 /* ✅ Completed Item Checkmark */
 .complete-item-btn {
-  font-size: 1.5rem;
-  color: #26b9c8;
+  position: relative;
+  background-color: #0457a0;
+  color:#fff56c;
+  margin-left: 5px;
   font-weight: bold;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 100;
 }
 
 .remove-item-btn:hover {
