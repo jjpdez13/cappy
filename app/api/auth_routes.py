@@ -3,7 +3,7 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -30,8 +30,9 @@ def login():
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        login_user(user)
-        return user.to_dict()
+        if user and check_password_hash(user.hashed_password, form.data['password']):
+            login_user(user)
+            return user.to_dict()
     return form.errors, 401
 
 
@@ -59,14 +60,25 @@ def sign_up():
     
     if not form.validate_on_submit():
         return jsonify({"errors": form.errors}), 401
+    
+    existing_user = User.query.filter((User.email == form.data['email']) | (User.username == form.data['username'])).first()
+    if existing_user:
+        errors = {}
+        if existing_user.email == form.data['email']:
+            errors["email"] = "Email is already in use."
+        if existing_user.username == form.data['username']:
+            errors["username"] = "Username is already taken."
+        return jsonify({"errors": errors}), 401
 
+    hashed_password = generate_password_hash(form.data['password'])
+    
     if form.validate_on_submit():
             user = User(
                 first_name=form.data['first_name'],
                 last_name=form.data['last_name'],
                 username=form.data['username'],
                 email=form.data['email'],
-                password=generate_password_hash(form.data['password']),
+                hashed_password=hashed_password,
                 role=form.data.get('role', "Employee")
             )
             db.session.add(user)

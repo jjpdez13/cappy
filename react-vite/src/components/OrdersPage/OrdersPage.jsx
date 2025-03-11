@@ -2,12 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { orderActions } from "../../redux";
+import ConfirmationModal from "../ConfirmationModal";
+import { useModal } from "../../context/Modal";
 import "./OrdersPage.css";
+
 
 const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
   const user = useSelector((state) => state.session.user);
+  const { setModalContent } = useModal();
   const ordersRef = useRef(null);
   const location = useLocation();
 
@@ -35,10 +39,14 @@ const OrdersPage = () => {
     );
   };
 
-  const handleDeleteOrder = (orderId) => {
-    dispatch(orderActions.removeOrder(orderId)).catch((err) =>
-      console.error("Error deleting order:", err)
-    );
+  const handleDelete = async (order) => {
+    setModalContent(
+      <ConfirmationModal
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete ${order.krustomer_name}'s order?`}
+        onConfirm={() => dispatch(orderActions.removeOrder(order.id))}
+      />
+    )
   };
 
   return (
@@ -84,7 +92,7 @@ const OrdersPage = () => {
               </ul>
               {user?.role === "Admin" && (
                 <button
-                  onClick={() => handleDeleteOrder(order.id)}
+                  onClick={() => handleDelete(order)}
                   className="delete-order-btn"
                 >
                   X

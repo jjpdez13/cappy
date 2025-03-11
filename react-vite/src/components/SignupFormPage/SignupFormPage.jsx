@@ -33,13 +33,12 @@ function SignupFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (Object.keys(errors).length > 0) return;
+    setErrors({});
 
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+          "Passwords must match",
       });
     }
 

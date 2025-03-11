@@ -41,22 +41,31 @@ export const thunkLogin = (credentials) => async dispatch => {
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
-  console.log("🔥 Sending Signup Data:", user);
-  
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
-  });
+  try {
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
 
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+      return null; // No errors
+    } 
+    
+    // If response is <500 (client-side error)
+    if (response.status < 500) {
+      const errorResponse = await response.json();
+      return errorResponse.errors || errorResponse; // Return only the `errors` object
+    } 
+
+    // If server-side error (500+), return generic error
+    return { server: "Something went wrong. Please try again" };
+  
+  } catch (error) {
+    console.error("Signup failed:", error);
+    return { server: "Network error. Please try again later." };
   }
 };
 

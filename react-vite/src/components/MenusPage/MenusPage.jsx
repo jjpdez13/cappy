@@ -1,22 +1,47 @@
 // react-vite/src/components/MenusPage/MenusPage.jsx
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { menuActions } from "../../redux";
-import "./MenusPage.css";
+import ConfirmationModal from "../ConfirmationModal";
+import { useModal } from "../../context/Modal";
 import { useNavigate } from "react-router-dom";
+import "./MenusPage.css";
 
 const MenusPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const menus = useSelector((state) => state.menus.menus);
   const user = useSelector((state) => state.session.user);
+  const { setModalContent } = useModal();
   const [editMenu, setEditMenu] = useState(null);
   const [menuName, setMenuName] = useState("");
   const [newMenuName, setNewMenuName] = useState("");
+  const editMenuRef = useRef(null);
 
   useEffect(() => {
     dispatch(menuActions.getMenus());
   }, [dispatch]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        editMenuRef.current &&
+        !editMenuRef.current.contains(e.target) &&
+        !e.target.classList.contains("save-btn") &&
+        !e.target.classList.contains("menu-edit-input")
+      ) {
+        setEditMenu(null);
+      }
+    };
+
+    if (editMenu !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editMenu]);
 
   const menusArr = Object.values(menus || {});
 
@@ -32,13 +57,17 @@ const MenusPage = () => {
     setMenuName(menu.name);
   };
 
-  const handleDelete = (menuId) => {
-    if (window.confirm("Are you sure you want to delete this menu?")) {
-      dispatch(menuActions.removeMenu(menuId));
-    }
+  const handleDelete = async (menu) => {
+    setModalContent(
+      <ConfirmationModal
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${menu.name}" from the list of menus?`}
+        onConfirm={() => dispatch(menuActions.removeMenu(menu.id))}
+      />
+    );
   };
 
-  const handleCreateMenu = async () => {
+  const handleCreate = async () => {
     if (newMenuName.trim() === "") return;
     const createdMenu = await dispatch(
       menuActions.createMenu({ name: newMenuName })
@@ -62,20 +91,21 @@ const MenusPage = () => {
             placeholder="Enter new menu name"
             className="menu-add-input"
           />
-          <button onClick={handleCreateMenu} className="add-btn">
+          <button onClick={handleCreate} className="add-btn">
             ADD
           </button>
         </div>
       )}
       {/* Main */}
-      <ul className={`menus-grid ${user?.role === "Admin" ? "admin-view" : "employee-view"}`}>
+      <ul
+        className={`menus-grid ${
+          user?.role === "Admin" ? "admin-view" : "employee-view"
+        }`}
+      >
         {menusArr.length > 0 ? (
           menusArr.map((menu) => (
             <li key={menu.id} className="menu-card">
-              <button
-                onClick={() => navigate("/items")}
-                className="menu-button"
-              >
+              <button onClick={() => navigate("/items")} className="menu-btn">
                 {menu.name}
               </button>
               <div className="menu-description">
@@ -86,7 +116,7 @@ const MenusPage = () => {
 
               {/* Admin-only: Edit & Delete Menu Buttons */}
               {user?.role === "Admin" && (
-                <div className="menu-actions">
+                <div className="menu-actions" ref={editMenuRef}>
                   {editMenu === menu.id ? (
                     <>
                       <input
@@ -95,15 +125,13 @@ const MenusPage = () => {
                         onChange={(e) => setMenuName(e.target.value)}
                         className="menu-edit-input"
                       />
-                      <button onClick={() => handleEdit(menu)}>Save</button>
+                      <button className="save-btn" onClick={() => handleEdit(menu)}>Save</button>
                       <button onClick={() => setEditMenu(null)}>Cancel</button>
                     </>
                   ) : (
                     <>
                       <button onClick={() => setEditMenu(menu.id)}>EDIT</button>
-                      <button onClick={() => handleDelete(menu.id)}>
-                        DELETE
-                      </button>
+                      <button onClick={() => handleDelete(menu)}>DELETE</button>
                     </>
                   )}
                   <p></p>

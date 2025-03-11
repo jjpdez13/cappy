@@ -14,6 +14,12 @@ order_items = db.Table(
         db.Integer, 
         db.ForeignKey(f"{SCHEMA}.items.id") if environment == "production" else db.ForeignKey("items.id"),
         primary_key=True
+    ),
+    db.Column(
+        "quantity",
+        db.Integer,
+        nullable=False,
+        default=1
     )
 )
 
