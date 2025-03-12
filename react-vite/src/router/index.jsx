@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
         element: <MenusPage />,
       },
       {
-        path: "items",
+        path: "items/:orderId?",
         element: <ItemsPage />,
       },
       {

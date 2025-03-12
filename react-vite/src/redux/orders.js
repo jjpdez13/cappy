@@ -58,6 +58,19 @@ export const getOrders = () => async (dispatch) => {
   }
 };
 
+// Get a sinlge Order
+export const getOrder = (orderId) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/orders/${orderId}`);
+    if (!res.ok) throw new Error("Failed to fetch order");
+
+    const order = await res.json();
+    dispatch(addToOrder(order)); // Use existing action to store order
+  } catch (e) {
+    console.error("Error fetching order", e);
+  }
+};
+
 // Create a New Order
 export const createOrder = (orderData) => async (dispatch) => {
   try {
@@ -84,13 +97,31 @@ export const addItemToOrder = (orderId, itemId) => async (dispatch) => {
       body: JSON.stringify({ item_ids: [itemId] }),
     });
 
-    if (!res.ok) throw Error("Failed to add item to order");
+    if (!res.ok) throw new Error("Failed to add item to order");
+
+    const updatedOrder = await res.json();
+    dispatch(addToOrder(updatedOrder)); // Updates the Redux store
+    return updatedOrder;
+  } catch (e) {
+    console.error("Error adding item to order", e);
+  }
+};
+
+// Update Items in an Order
+export const updateItemQuantity = (orderId, itemId, change) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/orders/${orderId}/update-quantity`, {
+      method: "POST",
+      body: JSON.stringify({ item_id: itemId, change }),
+    });
+
+    if (!res.ok) throw new Error("Failed to update item quantity");
 
     const updatedOrder = await res.json();
     dispatch(addToOrder(updatedOrder));
     return updatedOrder;
   } catch (e) {
-    console.error("Error adding item to order", e);
+    console.error("Error updating item quantity", e);
   }
 };
 

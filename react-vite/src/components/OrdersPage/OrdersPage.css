@@ -1,17 +1,14 @@
-/* Orders Page Container */
 .orders-list-container {
   text-align: center;
   padding: 30px;
 }
 
-/* Title */
 .orders-list-header h1 {
   font-size: 2rem;
   color: #0457a0;
   margin-bottom: 20px;
 }
 
-/* Orders Grid Layout */
 .orders-grid {
   display: flex;
   flex-direction: column;
@@ -21,125 +18,148 @@
   list-style: none;
 }
 
-/* Individual Order Card */
 .order-card {
   position: relative;
   background-color: #0457a0;
+  color: #fff56c;
   border-radius: 10px;
   padding: 15px;
   width: 80%;
   max-width: 500px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
   border: 2px solid #93e9be;
+  z-index: 100;
 }
 
-/* Order Title */
 .order-card h2 {
   color: #fff56c;
   font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
-/* Order Details */
 .order-card p {
-  font-size: 1.1rem;
   color: #fff56c;
+  font-size: 1.1rem;
   margin: 5px 0;
 }
 
-/* Order Status */
-.order-card p strong {
-  color: #fff56c;
-}
-
-/* Order Items List */
 .order-items-list {
   list-style: none;
   padding: 0;
-  margin: 10px 0;
+  margin-top: 15px;
 }
 
-.order-items-list li {
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #93e9be;
   color: #0457a0;
   padding: 8px 12px;
   border-radius: 5px;
   margin-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
   border: 1px solid #0457a0;
-}
-
-/* Remove Item Button */
-.remove-item-btn {
-  position: relative;
-  background-color: #ff4040;
-  color: #fff56c;
   font-weight: bold;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  z-index: 100;
 }
 
-/* ✅ Completed Item Checkmark */
-.complete-item-btn {
-  position: relative;
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.add-to-order-btn,
+.complete-order-btn,
+.remove-item-btn,
+.complete-item-btn,
+.delete-order-btn,
+.quantity-btn {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.add-to-order-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
   background-color: #0457a0;
-  color:#fff56c;
-  margin-left: 5px;
-  font-weight: bold;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+  color: #fff56c;
+  border: solid 2px #93e9be;
   border-radius: 5px;
-  z-index: 100;
+  padding: 6px 10px;
+  font-weight: bold;
 }
 
-.remove-item-btn:hover {
-  opacity: 0.8;
-}
-
-/* Complete Order Button */
 .complete-order-btn {
   background-color: #0457a0;
   color: #fff56c;
-  padding: 5px;
-  border: solid #93e9be;
+  border: solid 2px #93e9be;
   border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
+  padding: 8px;
+  font-weight: bold;
   margin-top: 10px;
   margin-left: 10px;
-  font-weight: bold;
 }
 
-.complete-order-btn:hover {
-  background-color: #0264c8;
-  opacity: 0.9;
-}
-
-/* DELETE ORDER BUTTON - Only for Admin */
-.delete-order-btn {
-  position: absolute;
-  top: 4px;
-  left: 10px;
-  background-color: #ff4040;
-  color: #fff56c;
-  padding: 6px 10px;
+.remove-item-btn,
+.complete-item-btn {
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
   font-weight: bold;
-  margin-top: 10px;
 }
 
-.delete-order-btn:hover {
+.remove-item-btn {
+  background-color: #ff4040;
+  color: #fff56c;
+}
+
+.complete-item-btn {
+  background-color: #0457a0;
+  color: #fff56c;
+}
+
+.delete-order-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #ff4040;
+  color: #fff56c;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+}
+
+.quantity-btn {
+  background-color: #93e9be;
+  border: solid yellow;
+  font-size: 16px;
+  margin: 1px;
+  border-radius: 5px;
+}
+
+.add-to-order-btn:not(:disabled):hover,
+.complete-order-btn:not(:disabled):hover,
+.remove-item-btn:not(:disabled):hover,
+.complete-item-btn:not(:disabled):hover,
+.delete-order-btn:not(:disabled):hover,
+.quantity-btn:not(:disabled):hover {
   opacity: 0.8;
-  background-color: #d63030;
+  transform: scale(1.2);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.completed-checkmark {
+  font-size: 1.5rem;
 }

@@ -1,7 +1,8 @@
 # cap/app/api/order_routes.py
 from flask import Blueprint, request, jsonify
 from flask_login import login_required
-from app.models import db, Order, Item
+from app.models import db, Order, Item, order_items
+from sqlalchemy import select
 
 order_routes = Blueprint('orders', __name__)
 
@@ -22,21 +23,27 @@ def add_to_order(id):
         return jsonify({"error": "Order not found"}), 404
 
     data = request.get_json()
-
-    # Validate input
     if "item_ids" not in data or not isinstance(data["item_ids"], list):
         return jsonify({"error": "item_ids must be a list of item IDs"}), 400
 
-    # Query items based on the list of item_ids
     new_items = Item.query.filter(Item.id.in_(data["item_ids"])).all()
-
     if not new_items:
         return jsonify({"error": "No valid items found"}), 400
 
-    # Add new items to the existing order
-    order.items.extend(new_items)
-    db.session.commit()
+    for item in new_items:
+        # 🛠️ Check if this item is already in the order
+        existing_entry = db.session.query(order_items).filter_by(order_id=id, item_id=item.id).first()
 
+        if existing_entry:
+            # ✅ If the item exists, just increase the quantity
+            existing_entry.quantity += 1
+        else:
+            # ✅ Otherwise, add a new row
+            db.session.execute(
+                order_items.insert().values(order_id=id, item_id=item.id, quantity=1)
+            )
+
+    db.session.commit()
     return jsonify(order.to_dict()), 200
 
 # DELETE: Remove items from an existing order
@@ -74,39 +81,40 @@ def remove_items_from_order(id):
 def add_order():
     data = request.get_json()
 
-    # Validate input structure
-    if "items" not in data or not isinstance(data["items"], list):
-        return jsonify({"error": "items must be a list of objects with item_id and quantity"}), 400
-
-    # Create a new order
     new_order = Order(
-        krustomer_name=data.get("krustomer_name", "Krustomer"),
-        status=data.get("status", "pending")
+        krustomer_name=data["krustomer_name"],
+        status="pending"
     )
-
     db.session.add(new_order)
-    db.session.commit()  # Commit here to generate order ID
-
-    # Process each item with quantity
-    for item_data in data["items"]:
-        item_id = item_data.get("item_id")
-        quantity = item_data.get("quantity", 1)  # Default to 1 if quantity is missing
-
-        item = Item.query.get(item_id)
-        if not item:
-            return jsonify({"error": f"Item with ID {item_id} not found"}), 400
-
-        # Add the item to the order with the specified quantity
-        db.session.execute(
-            """
-            INSERT INTO order_items (order_id, item_id, quantity)
-            VALUES (:order_id, :item_id, :quantity)
-            """,
-            {"order_id": new_order.id, "item_id": item_id, "quantity": quantity}
-        )
-
     db.session.commit()
 
+    for item in data["items"]:
+        existing = db.session.execute(
+            select(order_items.c.quantity).where(
+                order_items.c.order_id == new_order.id,
+                order_items.c.item_id == item["item_id"]
+            )
+        ).fetchone()
+
+        if existing:
+            db.session.execute(
+                order_items.update()
+                .where(
+                    order_items.c.order_id == new_order.id,
+                    order_items.c.item_id == item["item_id"]
+                )
+                .values(quantity=existing.quantity + item.get("quantity", 1))
+            )
+        else:
+            db.session.execute(
+                order_items.insert().values(
+                    order_id=new_order.id,
+                    item_id=item["item_id"],
+                    quantity=item.get("quantity", 1)
+                )
+            )
+
+    db.session.commit()
     return jsonify(new_order.to_dict()), 201
 
 # GET: Get details of a specific order
@@ -116,6 +124,38 @@ def get_order(id):
     order = Order.query.get(id)
     if not order:
         return jsonify({"error": "Order not found"}), 404
+    return jsonify(order.to_dict()), 200
+
+# POST: Update order items quantity
+@order_routes.route('/<int:order_id>/update-quantity', methods=['POST'])
+@login_required
+def update_order_item_quantity(order_id):
+    order = Order.query.get(order_id)
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    data = request.get_json()
+    item_id = data.get("item_id")
+    change = data.get("change", 1)  # Default to +1, can also be -1 for decreasing
+
+    if not item_id:
+        return jsonify({"error": "Missing item_id"}), 400
+
+    existing_item = db.session.query(order_items).filter_by(order_id=order_id, item_id=item_id).first()
+
+    if existing_item:
+        new_quantity = max(1, existing_item.quantity + change)  # Ensure quantity never drops below 1
+        db.session.execute(
+            order_items.update()
+            .where(order_items.c.order_id == order_id, order_items.c.item_id == item_id)
+            .values(quantity=new_quantity)
+        )
+    else:
+        db.session.execute(
+            order_items.insert().values(order_id=order_id, item_id=item_id, quantity=1)
+        )
+
+    db.session.commit()
     return jsonify(order.to_dict()), 200
 
 # PUT: Update a paid order from "pending" to "completed"

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { orderActions } from "../../redux";
 import ConfirmationModal from "../ConfirmationModal";
 import { useModal } from "../../context/Modal";
@@ -10,10 +10,11 @@ const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
   const user = useSelector((state) => state.session.user);
-  const [completedItems, setCompletedItems] = useState(new Set());
+  const navigate = useNavigate();
   const { setModalContent } = useModal();
   const ordersRef = useRef(null);
   const location = useLocation();
+  const [completedItems, setCompletedItems] = useState(new Set());
 
   useEffect(() => {
     dispatch(orderActions.getOrders());
@@ -23,18 +24,26 @@ const OrdersPage = () => {
     if (location.state?.fromItemsPage && ordersRef.current) {
       ordersRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [orders, location.state?.fromItemsPage]);
+  }, [orders, location.state]);
 
-  const ordersArr = Object.values(orders || {});
+  const handleUpdateQuantity = (orderId, itemId, change) => {
+    dispatch(orderActions.updateItemQuantity(orderId, itemId, change));
+  };
 
   const handleRemoveItem = (orderId, itemId) => {
     dispatch(orderActions.removeItemsFromOrder(orderId, [itemId])).catch(
-      (err) => console.error("Error removing item: ", err)
+      (err) => console.error("Error removing item:", err)
     );
   };
 
-  const handleCompleteItem = (orderId, itemId, index) => {
-    setCompletedItems((prev) => new Set([...prev, `${orderId}-${itemId}-${index}`]));
+  const handleCompleteItem = (orderId, itemId) => {
+    setCompletedItems((prev) => new Set(prev).add(`${orderId}-${itemId}`));
+  };
+
+  const isOrderComplete = (order) => {
+    return order.items.every((item) =>
+      completedItems.has(`${order.id}-${item.id}`)
+    );
   };
 
   const handleCompleteOrder = (orderId) => {
@@ -43,7 +52,7 @@ const OrdersPage = () => {
     );
   };
 
-  const handleDelete = async (order) => {
+  const handleDeleteOrder = (order) => {
     setModalContent(
       <ConfirmationModal
         title="Confirm Deletion"
@@ -59,68 +68,97 @@ const OrdersPage = () => {
         <h1>Orders</h1>
       </header>
       <ul className="orders-grid">
-        {ordersArr.length > 0 ? (
-          ordersArr.map((order) => (
+        {orders && Object.values(orders).length > 0 ? (
+          Object.values(orders).map((order) => (
             <li key={order.id} className="order-card">
+              <button
+                className="add-to-order-btn"
+                onClick={() => navigate(`/items/${order.id}`)}
+              >
+                + Add to Order
+              </button>
               <h2>Order #{order.id}</h2>
               <p>
                 <strong>Krustomer:</strong> {order.krustomer_name}
               </p>
               <p>
-                <strong>Status:</strong> {order.status}...
-                <br />
-                Tap when order READY:
-                <button
-                  onClick={() => handleCompleteOrder(order.id)}
-                  className="complete-order-btn"
-                >
-                  Order UUUPPP SQUIDWARRRDDD!!!!
-                </button>
-              </p>
+                <strong>Status:</strong> {order.status}
+              </p>Order is READY:
+              <button
+                onClick={() => handleCompleteOrder(order.id)}
+                className="complete-order-btn"
+                disabled={!isOrderComplete(order)}
+              >
+                Order UUUPPP SQUIDWARRRDDD!!!!
+              </button>
+
               <ul className="order-items-list">
                 {order.items.length > 0 ? (
-                  order.items.flatMap((item) =>
-                    Array.from({ length: item.quantity }, (_, index) => {
-                      const itemKey = `${order.id}-${item.id}-${index}`;
-
-                      return (
-                        <li key={itemKey} className="order-item">
-                          {item.name}
-
-                          {completedItems.has(itemKey) ? (
-                            // ✅ Show Checkmark Instead of Buttons
-                            <span className="item-complete-check">✅</span>
+                  order.items.map((item) => {
+                    const itemKey = `${order.id}-${item.id}`;
+                    const isCompleted = completedItems.has(itemKey);
+                    return (
+                      <li key={itemKey} className="order-item">
+                        <div className="item-info">
+                          {item.name} (x{item.quantity})
+                          {!isCompleted && (
+                            <div className="quantity-controls">
+                              {item.quantity > 1 && (
+                                <button
+                                  onClick={() =>
+                                    handleUpdateQuantity(order.id, item.id, -1)
+                                  }
+                                  className="quantity-btn"
+                                >
+                                 ➖ 
+                                </button>
+                              )}
+                              <button
+                                onClick={() =>
+                                  handleUpdateQuantity(order.id, item.id, 1)
+                                }
+                                className="quantity-btn"
+                              >
+                                ➕ 
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <div className="item-actions">
+                          {isCompleted ? (
+                            <span className="completed-checkmark">✅</span>
                           ) : (
-                            <div className="item-actions">
+                            <>
                               <button
                                 onClick={() =>
                                   handleRemoveItem(order.id, item.id)
                                 }
                                 className="remove-item-btn"
                               >
-                                Out of Item
+                                X Remove
                               </button>
                               <button
                                 onClick={() =>
-                                  handleCompleteItem(order.id, item.id, index)
+                                  handleCompleteItem(order.id, item.id)
                                 }
                                 className="complete-item-btn"
                               >
-                                Complete Item
+                                ✅ Complete
                               </button>
-                            </div>
+                            </>
                           )}
-                        </li>
-                      );
-                    })
-                  )
+                        </div>
+                      </li>
+                    );
+                  })
                 ) : (
-                  <li>No items in this order.</li>
+                  <li className="no-items">No items in this order.</li>
                 )}
               </ul>
+
               {user?.role === "Admin" && (
                 <button
-                  onClick={() => handleDelete(order)}
+                  onClick={() => handleDeleteOrder(order)}
                   className="delete-order-btn"
                 >
                   X

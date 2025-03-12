@@ -1,24 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import { itemActions, orderActions } from "../../redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PlanktonModal from "../PlanktonModal";
 import "./ItemsPage.css";
 
 const ItemsPage = () => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items.items);
+  const orders = useSelector((state) => state.orders.orders);
   const orderRef = useRef(null);
   const navigate = useNavigate();
+  const { orderId } = useParams();
   const [krustomerName, setKrustomerName] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
+  const [newSelectedItems, setNewSelectedItems] = useState([]);
   const [planktonAlert, setPlanktonAlert] = useState(false);
   const [planktonName, setPlanktonName] = useState("");
   const planktonAliases = ["plankton", "sheldon", "evil genius", "tiny menace"];
 
   useEffect(() => {
     dispatch(itemActions.getItems());
-  }, [dispatch]);
+    if (orderId) {
+      dispatch(orderActions.getOrder(orderId));
+    }
+  }, [dispatch, orderId]);
+
+  useEffect(() => {
+    if (orderId && orders[orderId]) {
+      setKrustomerName(orders[orderId].krustomer_name);
+      setSelectedItems(orders[orderId].items || []);
+    }
+  }, [orders, orderId]);
 
   useEffect(() => {
     if (orderRef.current) {
@@ -30,7 +43,24 @@ const ItemsPage = () => {
 
   // Add item to order
   const handleAddItem = (item) => {
-    setSelectedItems((prev) => [...prev, item]);
+    if (orderId) {
+      const isAlreadyInOrder = orders[orderId]?.items.some(
+        (existingItem) => existingItem.id === item.id
+      );
+
+      if (isAlreadyInOrder) {
+        alert(
+          `${item.name} is already in the order! Update its quantity on the Orders Page.`
+        );
+        return;
+      }
+
+      setSelectedItems((prev) => [...prev, item]);
+
+      dispatch(orderActions.addItemToOrder(orderId, item.id));
+    } else {
+      setSelectedItems((prev) => [...prev, item]);
+    }
   };
 
   // Remove item from order
@@ -44,67 +74,60 @@ const ItemsPage = () => {
       alert("Please enter a name!");
       return;
     }
-    if (selectedItems.length === 0) {
-      alert("Please select at least one item!");
-      return;
-    }
-
-    // CHECK FOR PLANKTON BEFORE SUBMISSION
+  
     const lowerName = krustomerName.toLowerCase();
     if (planktonAliases.some((alias) => lowerName.includes(alias))) {
       setPlanktonAlert(true);
       setPlanktonName(krustomerName);
       return;
     }
-
-    const itemsWithQuantities = selectedItems.reduce((acc, item) => {
-      const existingItem = acc.find((i) => i.item_id === item.id);
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        acc.push({ item_id: item.id, quantity: 1 });
+  
+    if (orderId) {
+      for (const item of newSelectedItems) {
+        await dispatch(orderActions.addItemToOrder(orderId, item.id));
       }
-      return acc;
-    }, []);
-
-    console.log("Submitting Order Payload:", {
+      setNewSelectedItems([]);
+      navigate("/orders");
+      return;
+    }
+  
+    const orderData = {
       krustomer_name: krustomerName,
-      items: itemsWithQuantities,
-    });
-
-    const newOrder = await dispatch(
-      orderActions.createOrder({
-        krustomer_name: krustomerName,
-        items: itemsWithQuantities,
-      })
-    );
-
-    if (newOrder) {
+      items: selectedItems.map((item) => ({ item_id: item.id, quantity: 1 })),
+    };
+  
+    try {
+      const newOrder = await dispatch(orderActions.createOrder(orderData));
+  
+      if (!newOrder || newOrder.error) {
+        throw new Error("Order creation returned undefined or error");
+      }
+  
       setKrustomerName("");
       setSelectedItems([]);
-      setTimeout(() => {
-        navigate("/orders", { state: { fromItemsPage: true } });
-      }, 200);
+      navigate("/orders");
+    } catch (error) {
+      console.error("Create order error:", error);
+      alert("Error creating order. Check console for details.");
     }
-    // Reset the form after submission
-    setKrustomerName("");
-    setSelectedItems([]);
   };
 
   return (
     <div className="items-list-container">
       <header className="items-list-header">
-        <h1>Items</h1>
+        <h1>{orderId ? `Edit Order #${orderId}` : "New Order"}</h1>
       </header>
 
       {/* Name Input */}
-      <input
-        type="text"
-        placeholder="Enter Krustomer Name"
-        value={krustomerName}
-        onChange={(e) => setKrustomerName(e.target.value)}
-        className="name-input"
-      />
+      {!orderId && (
+        <input
+          type="text"
+          placeholder="Enter Krustomer Name"
+          value={krustomerName}
+          onChange={(e) => setKrustomerName(e.target.value)}
+          className="name-input"
+        />
+      )}
 
       {/* Item Selection */}
       <div className="order-container">
@@ -132,7 +155,7 @@ const ItemsPage = () => {
             <div className="selected-items">
               {selectedItems.map((item, index) => (
                 <div key={index} className="selected-item">
-                  {item.name}
+                  {item.name} (x{item.quantity})
                   <button
                     className="remove-btn"
                     onClick={() => handleRemoveItem(index)}
@@ -143,7 +166,7 @@ const ItemsPage = () => {
               ))}
             </div>
             <button onClick={handleSubmitOrder} className="submit-btn">
-              Submit Order
+              {orderId ? "Update Order" : "Submit Order"}
             </button>
           </div>
         )}

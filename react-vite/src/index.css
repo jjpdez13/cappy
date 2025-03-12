@@ -14,7 +14,7 @@ body {
     position: fixed;
     bottom: 1px;
     left: -7%;
-    width: 500px;
+    width: 650px;
     height: auto;
   }
   
@@ -23,7 +23,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 2%;
-    width: 300px;
+    width: 400px;
     height: auto;
   }
   
@@ -32,14 +32,14 @@ body {
     background-color: antiquewhite;
     border-radius: 15px;
     position: fixed;
-    bottom: 80px;
+    bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
     color: #ff4040;
     white-space: nowrap;
-    z-index: 100px;
+    z-index: none;
   }
 
