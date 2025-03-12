@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
@@ -14,33 +14,32 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     const newErrors = {};
 
     if (!firstName.trim()) newErrors.firstName = "First name is required";
     if (!lastName.trim()) newErrors.lastName = "Last name is required";
+
     if (!email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Invalid email format";
+    else if (!/\S+@\S+\.\S+/.test(email))
+      newErrors.email = "Invalid email format";
+
     if (!username.trim()) newErrors.username = "Username is required";
-    if (username.length < 4) newErrors.username = "Username must be at least 4 characters";
-    if (!password) newErrors.password = "Password is required";
-    if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
-    if (confirmPassword !== password) newErrors.confirmPassword = "Passwords must match";
+    if (password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+
+    if (confirmPassword !== password)
+      newErrors.confirmPassword = "Passwords must match";
 
     setErrors(newErrors);
+    setIsValid(Object.keys(newErrors).length === 0);
   }, [firstName, lastName, email, username, password, confirmPassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
-
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Passwords must match",
-      });
-    }
+    if (!isValid) return;
 
     const serverResponse = await dispatch(
       thunkSignup({
@@ -62,7 +61,7 @@ function SignupFormPage() {
   return (
     <div className="signup-container">
       <h1 className="signup-title">Employee Sign Up</h1>
-      <form onSubmit={handleSubmit} className="signup-form">
+      <form className="signup-form" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="First Name"
@@ -70,7 +69,9 @@ function SignupFormPage() {
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-        {errors.firstName && <p className="error-message">{errors.firstName}</p>}
+        {errors.firstName && (
+          <p className="error-message">{errors.firstName}</p>
+        )}
 
         <input
           type="text"
@@ -79,10 +80,12 @@ function SignupFormPage() {
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-        {errors.lastName && <p className="error-message">{errors.lastName}</p>}
+        {errors.lastName && (
+          <p className="error-message">{errors.lastName}</p>
+        )}
 
         <input
-          type="text"
+          type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -119,7 +122,13 @@ function SignupFormPage() {
           <p className="error-message">{errors.confirmPassword}</p>
         )}
 
-        <button type="submit" className="signup-button">Sign Up</button>
+        <button
+          type="submit"
+          className="signup-button"
+          disabled={Object.keys(errors).length > 0}
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );
