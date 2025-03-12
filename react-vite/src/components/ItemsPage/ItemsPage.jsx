@@ -122,7 +122,7 @@ const ItemsPage = () => {
       {!orderId && (
         <input
           type="text"
-          placeholder="Enter Krustomer Name"
+          placeholder='Enter "Krustomer" Name'
           value={krustomerName}
           onChange={(e) => setKrustomerName(e.target.value)}
           className="name-input"
