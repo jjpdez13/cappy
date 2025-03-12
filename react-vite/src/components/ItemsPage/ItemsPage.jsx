@@ -11,6 +11,7 @@ const ItemsPage = ({ category }) => {
   const orders = useSelector((state) => state.orders.orders);
   const orderRef = useRef(null);
   const navigate = useNavigate();
+  const loading = useSelector((state) => state.session.loading);
   const { orderId } = useParams();
   const [krustomerName, setKrustomerName] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
@@ -43,6 +44,8 @@ const ItemsPage = ({ category }) => {
     }
   }, [selectedItems]);
 
+  if (loading) return <div className="loading">Loading items...</div>;
+  
   // Add item to order
   const handleAddItem = (item) => {
     if (orderId) {

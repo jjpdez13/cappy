@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { setLoading } from "./session";
 
 /******************************* ACTION TYPES *******************************************/
 
@@ -16,12 +17,14 @@ export const loadUsers = (users) => ({
 // Get all Users
 export const getUsers = () => async (dispatch) => {
   try {
-    const res = await csrfFetch('/api/users/');
+    const res = await csrfFetch("/api/users/");
     if (!res.ok) throw Error("Failed to get users");
-      const data = await res.json();
+    const data = await res.json();
     dispatch(loadUsers(data.users));
   } catch (e) {
     console.error("Error loading users", e);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
@@ -32,23 +35,23 @@ const initialState = {
 };
 
 const usersReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case LOAD_USERS: {
-          if (!Array.isArray(action.payload)) {
-            console.error("Expected array but got:", action.payload);
-            return state;
-          }
-  
-          const usersObj = action.payload.reduce((acc, user) => {
-            acc[user.id] = user;
-            return acc;
-          }, {});
-  
-          return { ...state, users: usersObj };
-        }
-      default:
+  switch (action.type) {
+    case LOAD_USERS: {
+      if (!Array.isArray(action.payload)) {
+        console.error("Expected array but got:", action.payload);
         return state;
+      }
+
+      const usersObj = action.payload.reduce((acc, user) => {
+        acc[user.id] = user;
+        return acc;
+      }, {});
+
+      return { ...state, users: usersObj };
     }
-  };
+    default:
+      return state;
+  }
+};
 
 export default usersReducer;

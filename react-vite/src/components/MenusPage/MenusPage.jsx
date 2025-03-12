@@ -12,6 +12,7 @@ const MenusPage = () => {
   const navigate = useNavigate();
   const menus = useSelector((state) => state.menus.menus);
   const user = useSelector((state) => state.session.user);
+  const loading = useSelector((state) => state.session.loading);
   const { setModalContent } = useModal();
   const [editMenu, setEditMenu] = useState(null);
   const [menuName, setMenuName] = useState("");
@@ -43,6 +44,8 @@ const MenusPage = () => {
     };
   }, [editMenu]);
 
+  if (loading) return <div className="loading">Loading items...</div>;
+  
   const menusArr = Object.values(menus || {});
 
   const handleEdit = async (menu) => {

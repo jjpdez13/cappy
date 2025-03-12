@@ -1,6 +1,6 @@
 // react-vite/src/redux/items.js
-
 import { csrfFetch } from "./csrf";
+import { setLoading } from "./session";
 
 /******************************* ACTION TYPES *******************************************/
 
@@ -38,6 +38,8 @@ export const getItems = () => async (dispatch) => {
     dispatch(loadItems(data));
   } catch (e) {
     console.error("Error loading items", e);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
@@ -56,6 +58,8 @@ export const createItem = (itemData) => async (dispatch) => {
     return newItem;
   } catch (e) {
     console.error("Error creating item", e);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
@@ -71,6 +75,8 @@ export const removeItem = (itemId) => async (dispatch) => {
     dispatch(deleteItem(itemId));
   } catch (e) {
     console.error("Error deleting item", e);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 

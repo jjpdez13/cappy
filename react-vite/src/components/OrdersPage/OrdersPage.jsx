@@ -10,6 +10,7 @@ const OrdersPage = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
   const user = useSelector((state) => state.session.user);
+  const loading = useSelector((state) => state.session.loading);
   const navigate = useNavigate();
   const { setModalContent } = useModal();
   const ordersRef = useRef(null);
@@ -26,6 +27,8 @@ const OrdersPage = () => {
     }
   }, [orders, location.state]);
 
+  if (loading) return <div className="loading">Loading items...</div>;
+  
   const handleUpdateQuantity = (orderId, itemId, change) => {
     dispatch(orderActions.updateItemQuantity(orderId, itemId, change));
   };
