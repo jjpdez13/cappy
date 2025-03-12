@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PlanktonModal from "../PlanktonModal";
 import "./ItemsPage.css";
 
-const ItemsPage = () => {
+const ItemsPage = ({ category }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items.items);
   const orders = useSelector((state) => state.orders.orders);
@@ -33,13 +33,15 @@ const ItemsPage = () => {
     }
   }, [orders, orderId]);
 
+  const itemsArr = Object.values(items || {}).filter(
+    (item) => !category || item.category === category
+  );
+
   useEffect(() => {
     if (orderRef.current) {
       orderRef.current.scrollTop = orderRef.current.scrollHeight;
     }
   }, [selectedItems]);
-
-  const itemsArr = Object.values(items || {});
 
   // Add item to order
   const handleAddItem = (item) => {
@@ -74,14 +76,14 @@ const ItemsPage = () => {
       alert("Please enter a name!");
       return;
     }
-  
+
     const lowerName = krustomerName.toLowerCase();
     if (planktonAliases.some((alias) => lowerName.includes(alias))) {
       setPlanktonAlert(true);
       setPlanktonName(krustomerName);
       return;
     }
-  
+
     if (orderId) {
       for (const item of newSelectedItems) {
         await dispatch(orderActions.addItemToOrder(orderId, item.id));
@@ -90,19 +92,19 @@ const ItemsPage = () => {
       navigate("/orders");
       return;
     }
-  
+
     const orderData = {
       krustomer_name: krustomerName,
       items: selectedItems.map((item) => ({ item_id: item.id, quantity: 1 })),
     };
-  
+
     try {
       const newOrder = await dispatch(orderActions.createOrder(orderData));
-  
+
       if (!newOrder || newOrder.error) {
         throw new Error("Order creation returned undefined or error");
       }
-  
+
       setKrustomerName("");
       setSelectedItems([]);
       navigate("/orders");

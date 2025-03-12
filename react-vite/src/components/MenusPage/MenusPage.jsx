@@ -105,7 +105,7 @@ const MenusPage = () => {
         {menusArr.length > 0 ? (
           menusArr.map((menu) => (
             <li key={menu.id} className="menu-card">
-              <button onClick={() => navigate("/items")} className="menu-btn">
+              <button onClick={() => navigate(`/items/${menu.name.toLowerCase()}`)} className="menu-btn">
                 {menu.name}
               </button>
               <div className="menu-description">

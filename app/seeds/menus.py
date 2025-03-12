@@ -6,8 +6,6 @@ def seed_menus():
     brekky = Menu(name="Breakfast")
     lunch = Menu(name="Lunch")
     dindin = Menu(name="Dinner")
-    # zerts = Menu(name="Desserts")
-    # specials = Menu(name="Specials")
 
     db.session.add_all([brekky, lunch, dindin])
     db.session.commit()

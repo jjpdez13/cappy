@@ -2,6 +2,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import db, Menu
+from app.seeds.conditional_seed import seed_menu_items
 
 menu_routes = Blueprint('menus', __name__)
 
@@ -15,12 +16,15 @@ def get_menu():
 
 # POST: Add a new menu category
 @menu_routes.route('/', methods=['POST'])
-@login_required
 def add_menu():
     data = request.get_json()
     new_menu = Menu(name=data["name"])
     db.session.add(new_menu)
     db.session.commit()
+
+    if new_menu.name in ["Desserts", "Specials"]:
+        seed_menu_items(new_menu.name)
+
     return jsonify(new_menu.to_dict()), 201
 
 # PUT: Update an existing menu category

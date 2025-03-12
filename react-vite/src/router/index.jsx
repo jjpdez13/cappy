@@ -32,6 +32,26 @@ export const router = createBrowserRouter([
         element: <ItemsPage />,
       },
       {
+        path: "items/breakfast/:orderId?",
+        element: <ItemsPage category="Breakfast" />,
+      },
+      {
+        path: "items/lunch/:orderId?",
+        element: <ItemsPage category="Lunch" />,
+      },
+      {
+        path: "items/dinner/:orderId?",
+        element: <ItemsPage category="Dinner" />,
+      },
+      {
+        path: "items/desserts/:orderId?",
+        element: <ItemsPage category="Desserts" />,
+      },
+      {
+        path: "items/specials/:orderId?",
+        element: <ItemsPage category="Specials" />,
+      },
+      {
         path: "orders",
         element: <OrdersPage />,
       },

@@ -25,7 +25,7 @@
   border-radius: 10px;
   padding: 15px;
   width: 80%;
-  max-width: 500px;
+  max-width: 600px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
   border: 2px solid #93e9be;
   z-index: 100;
@@ -79,7 +79,6 @@
 .complete-item-btn,
 .delete-order-btn,
 .quantity-btn {
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   cursor: pointer;
 }
 
