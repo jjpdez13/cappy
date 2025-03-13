@@ -34,6 +34,15 @@ def seed_menu_items(menu_name):
     }
 
     items_data = predefined_items.get(menu_name, [])
-    items = [Item(menu_id=menu.id, category=menu_name, **item) for item in items_data]
-    db.session.add_all(items)
-    db.session.commit()
+
+    existing_item_names = {item.name for item in Item.query.filter(Item.menu_id == menu.id).all()}
+
+    new_items = [
+        Item(menu_id=menu.id, category=menu_name, **item_data)
+        for item_data in items_data
+        if item_data["name"] not in existing_item_names
+    ]
+
+    if new_items:
+        db.session.add_all(new_items)
+        db.session.commit()
