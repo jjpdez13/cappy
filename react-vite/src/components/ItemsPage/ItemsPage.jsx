@@ -112,7 +112,7 @@ const ItemsPage = ({ category }) => {
 
       setKrustomerName("");
       setSelectedItems([]);
-      navigate("/orders");
+      navigate("/orders", { state: { fromItemsPage: true } });
     } catch (error) {
       console.error("Create order error:", error);
       alert("Error creating order. Check console for details.");
