@@ -1,181 +1,182 @@
 /* Main */
 .order-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 80px;
-    margin-top: 30px;
-    z-index: 100;
-  }
-  
-  /* Items Grid */
-  .items-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    width: 50%;
-  }
-  
-  /* Item Card */
-  .item-card {
-    text-align: center;
-  }
-  
-  /* Item Button */
-  .item-btn {
-    background-color: #0457A0;
-    color: #FFF56C;
-    font-size: 1.3rem;
-    font-weight: bold;
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .item-btn:hover {
-    opacity: .8;
-    transform: scale(1.05);
-  }
-  
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 80px;
+  margin-top: 30px;
+  z-index: 100;
+}
+
+/* Items Grid */
+.items-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 50%;
+}
+
+/* Item Card */
+.item-card {
+  text-align: center;
+}
+
+/* Item Button */
+.item-btn {
+  background-color: #0457a0;
+  color: #fff56c;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.item-btn:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
 /* Order Summary */
 .order-summary {
-    width: 300px;
-    max-height: 300px;
-    overflow-y: auto;
-    background-color: #0457A0;
-    color: #FFF56C;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    border: 2px solid #93E9BE;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Order Summary Title */
-  .order-summary h2 {
-    font-size: 1.5rem;
-    color: #FFF56C;
-    margin-bottom: 10px;
-  }
-  
-  /* Selected Items List */
-  .selected-items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  /* Individual Selected Item */
-  .selected-item {
-    background-color: #93E9BE;
-    color: #0457A0;
-    padding: 8px 12px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    border: 1px solid #0457A0;
-  }
-  
-  /* Remove Item Button */
-  .remove-btn {
-    background-color: #FF4040;
-    color: #FFF56C;
-    font-weight: bold;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .remove-btn:hover {
-    opacity: 0.8;
-  }
-  
-  .submit-btn {
-    background-color: #0457A0;
-    color: #FFF56C;
-    font-size: 1.3rem;
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.2s ease-in-out;
-    margin-top: 15px;
-  }
-  
-  .submit-btn:hover {
-    opacity: .8;
-    transform: scale(1.05);
-  }
-  
-  /* Scrollbar Styling for Order Summary */
-  .order-summary::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .order-summary::-webkit-scrollbar-thumb {
-    background-color: #0457A0;
-    border-radius: 4px;
-  }
-  
-  /* Page Title */
-  .items-list-header h1 {
-    font-size: 2.5rem;
-    color: #0457A0;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Name Input */
-  .name-input {
-    font-size: 1.2rem;
-    padding: 10px;
-    width: 300px;
-    border: 2px solid #0457A0;
-    border-radius: 5px;
-    outline: none;
-    text-align: center;
-    display: block;
-    margin: 0 auto;
-    color:#0457A0;
-  }
-  
-  .name-input::placeholder {
-    color: #FF4040;
-  }
-  
-  .remove-btn {
-    background-color: #FF4040;
-    color: #FFF56C;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .remove-btn:hover {
-    opacity: 0.8;
-  }
-  
-  .submit-btn {
-    background-color: #0457A0;
-    color: #FFF56C;
-    border: solid #FFF56C;
-    font-size: 1.3rem;
-    padding: 12px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 15px;
-  }
-  
-  .submit-btn:hover {
-    border: solid #93E9BE;
-    opacity: .8;
-    transform: scale(1.05);
-  }
+  position: sticky;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #0457a0;
+  color: #fff56c;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  border: 2px solid #93e9be;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Order Summary Title */
+.order-summary h2 {
+  font-size: 1.5rem;
+  color: #fff56c;
+  margin-bottom: 10px;
+}
+
+/* Selected Items List */
+.selected-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Individual Selected Item */
+.selected-item {
+  background-color: #93e9be;
+  color: #0457a0;
+  padding: 8px 12px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  border: 1px solid #0457a0;
+}
+
+/* Remove Item Button */
+.remove-btn {
+  background-color: #ff4040;
+  color: #fff56c;
+  font-weight: bold;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.remove-btn:hover {
+  opacity: 0.8;
+}
+
+.submit-btn {
+  background-color: #0457a0;
+  color: #fff56c;
+  font-size: 1.3rem;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
+  margin-top: 15px;
+}
+
+.submit-btn:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+/* Scrollbar Styling for Order Summary */
+.order-summary::-webkit-scrollbar {
+  width: 8px;
+}
+
+.order-summary::-webkit-scrollbar-thumb {
+  background-color: #0457a0;
+  border-radius: 4px;
+}
+
+/* Page Title */
+.items-list-header h1 {
+  font-size: 2.5rem;
+  color: #0457a0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Name Input */
+.name-input {
+  font-size: 1.2rem;
+  padding: 10px;
+  width: 300px;
+  border: 2px solid #0457a0;
+  border-radius: 5px;
+  outline: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  color: #0457a0;
+}
+
+.name-input::placeholder {
+  color: #ff4040;
+}
+
+.remove-btn {
+  background-color: #ff4040;
+  color: #fff56c;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.remove-btn:hover {
+  opacity: 0.8;
+}
+
+.submit-btn {
+  background-color: #0457a0;
+  color: #fff56c;
+  border: solid #fff56c;
+  font-size: 1.3rem;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.submit-btn:hover {
+  border: solid #93e9be;
+  opacity: 0.8;
+  transform: scale(1.05);
+}
