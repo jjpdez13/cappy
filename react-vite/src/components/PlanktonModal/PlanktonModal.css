@@ -13,7 +13,7 @@
     font-weight: bold;
     text-align: center;
     z-index: 9999;
-    animation: alarmFlash 0.3s infinite alternate; /* Fast red flashing */
+    animation: alarmFlash 0.3s infinite alternate;
   }
   
   @keyframes alarmFlash {

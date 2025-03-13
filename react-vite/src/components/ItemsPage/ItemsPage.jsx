@@ -80,6 +80,7 @@ const ItemsPage = ({ category }) => {
       return;
     }
 
+    // WATCH OUT FOR PLANKTON!!!!
     const lowerName = krustomerName.toLowerCase();
     if (planktonAliases.some((alias) => lowerName.includes(alias))) {
       setPlanktonAlert(true);
@@ -87,6 +88,7 @@ const ItemsPage = ({ category }) => {
       return;
     }
 
+    // if order exists we add items
     if (orderId) {
       for (const item of newSelectedItems) {
         await dispatch(orderActions.addItemToOrder(orderId, item.id));

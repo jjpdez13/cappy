@@ -35,18 +35,16 @@ def seed_menu_items(menu_name):
 
     items_data = menu_items.get(menu_name, [])
 
-    # ✅ Prevent duplicates clearly for both SQLite and PostgreSQL
     existing_items = {
         item.name for item in Item.query.filter(Item.menu_id == menu.id).all()
     }
 
-    # ✅ Ensure correct menu_id and category
     new_items = [
         Item(
             name=data["name"],
             price=data["price"],
-            menu_id=menu.id,          # Explicitly set clearly
-            category=menu_name        # Explicitly match menu_name
+            menu_id=menu.id,
+            category=menu_name
         )
         for data in items_data
         if data["name"] not in existing_items

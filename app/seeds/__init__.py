@@ -7,16 +7,15 @@ from .order_items import undo_order_items
 
 from app.models.db import db, environment, SCHEMA
 
-# Creates a seed group to hold our commands
-# So we can type `flask seed --help`
+
 seed_commands = AppGroup('seed')
 
-# Creates the `flask seed all` command
+# Create the `flask seed all` command
 @seed_commands.command('all')
 def seed():
     if environment == 'production':
         # Before seeding in production, undo all data first
-        undo_order_items()  # 🔹 Add this to clear the order_items table
+        undo_order_items()
         undo_users()
         undo_menus()
         undo_items()
@@ -28,10 +27,10 @@ def seed():
     seed_items()
     seed_orders()
 
-# Creates the `flask seed undo` command
+# Create the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    undo_order_items()  # 🔹 Add this here too
+    undo_order_items()
     undo_users()
     undo_menus()
     undo_items()

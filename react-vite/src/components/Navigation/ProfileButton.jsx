@@ -45,7 +45,7 @@ function ProfileButton() {
     closeMenu();
   };
 
-  // 🔹 Assign Emojis Based on Username
+  // Assign Emojis Based on Username
   const emojiMap = {
     "MoneyKrab$": "🦀",
     "SquiddyClarinet105": "🦑",

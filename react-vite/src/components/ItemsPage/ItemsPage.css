@@ -40,13 +40,13 @@
     transform: scale(1.05);
   }
   
-/* Order Summary - Styled to Match Orders */
+/* Order Summary */
 .order-summary {
     width: 300px;
     max-height: 300px;
     overflow-y: auto;
-    background-color: #0457A0; /* USAFA Blue */
-    color: #FFF56C; /* Bright Yellow */
+    background-color: #0457A0;
+    color: #FFF56C;
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -71,8 +71,8 @@
   
   /* Individual Selected Item */
   .selected-item {
-    background-color: #93E9BE; /* Seafoam Green */
-    color: #0457A0; /* USAFA Blue */
+    background-color: #93E9BE;
+    color: #0457A0;
     padding: 8px 12px;
     border-radius: 5px;
     display: flex;
@@ -84,7 +84,7 @@
   
   /* Remove Item Button */
   .remove-btn {
-    background-color: #FF4040; /* Coral Red */
+    background-color: #FF4040;
     color: #FFF56C;
     font-weight: bold;
     border: none;
@@ -127,7 +127,7 @@
   /* Page Title */
   .items-list-header h1 {
     font-size: 2.5rem;
-    color: #0457A0; /* USAFA Blue */
+    color: #0457A0;
     margin-bottom: 20px;
     text-align: center;
   }
@@ -137,7 +137,7 @@
     font-size: 1.2rem;
     padding: 10px;
     width: 300px;
-    border: 2px solid #0457A0; /* USAFA Blue */
+    border: 2px solid #0457A0;
     border-radius: 5px;
     outline: none;
     text-align: center;

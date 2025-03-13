@@ -67,7 +67,7 @@ export const getOrder = (orderId) => async (dispatch) => {
     if (!res.ok) throw new Error("Failed to fetch order");
 
     const order = await res.json();
-    dispatch(addToOrder(order)); // Use existing action to store order
+    dispatch(addToOrder(order));
   } catch (e) {
     console.error("Error fetching order", e);
   } finally {
@@ -106,7 +106,7 @@ export const addItemToOrder = (orderId, itemId) => async (dispatch) => {
     if (!res.ok) throw new Error("Failed to add item to order");
 
     const updatedOrder = await res.json();
-    dispatch(addToOrder(updatedOrder)); // Updates the Redux store
+    dispatch(addToOrder(updatedOrder));
     return updatedOrder;
   } catch (e) {
     console.error("Error adding item to order", e);
