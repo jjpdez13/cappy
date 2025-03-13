@@ -6,11 +6,15 @@
   align-items: flex-start;
   gap: 80px;
   margin-top: 30px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   z-index: 100;
 }
 
 /* Items Grid */
 .items-grid {
+  flex: -1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -43,6 +47,8 @@
 /* Order Summary */
 .order-summary {
   position: sticky;
+  top: 200px;
+  align-self: flex-start;
   width: 300px;
   max-height: 300px;
   overflow-y: auto;
