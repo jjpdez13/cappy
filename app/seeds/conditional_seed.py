@@ -6,7 +6,7 @@ def seed_menu_items(menu_name):
     if not menu:
         return
 
-    predefined_items = {
+    menu_items = {
         "Desserts": [
             {"name": "Chocolate Chum Sundae", "price": 3.99},
             {"name": "Goofy Goober Ice Cream", "price": 4.49},
@@ -30,17 +30,26 @@ def seed_menu_items(menu_name):
             {"name": "Bubble Buddy’s Best Burger", "price": 6.99},
             {"name": "Invisible Patty (Imaginary!)", "price": 4.99},
             {"name": "Anchovy Special Combo", "price": 9.49},
-        ],
+        ]
     }
 
-    items_data = predefined_items.get(menu_name, [])
+    items_data = menu_items.get(menu_name, [])
 
-    existing_item_names = {item.name for item in Item.query.filter(Item.menu_id == menu.id).all()}
+    # ✅ Prevent duplicates clearly for both SQLite and PostgreSQL
+    existing_items = {
+        item.name for item in Item.query.filter(Item.menu_id == menu.id).all()
+    }
 
+    # ✅ Ensure correct menu_id and category
     new_items = [
-        Item(menu_id=menu.id, category=menu_name, **item_data)
-        for item_data in items_data
-        if item_data["name"] not in existing_item_names
+        Item(
+            name=data["name"],
+            price=data["price"],
+            menu_id=menu.id,          # Explicitly set clearly
+            category=menu_name        # Explicitly match menu_name
+        )
+        for data in items_data
+        if data["name"] not in existing_items
     ]
 
     if new_items:
