@@ -1,8 +1,8 @@
 """Initial migration with reset
 
-Revision ID: 14c4b375249c
+Revision ID: 82b8278e3d4d
 Revises: 
-Create Date: 2025-03-03 13:19:11.261807
+Create Date: 2025-03-13 11:11:42.421940
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '14c4b375249c'
+revision = '82b8278e3d4d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,8 +25,8 @@ def upgrade():
     )
     op.create_table('orders',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('krustomer_name', sa.String(), nullable=False),
-    sa.Column('status', sa.String(), nullable=False),
+    sa.Column('krustomer_name', sa.String(length=50), nullable=False),
+    sa.Column('status', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -44,7 +44,7 @@ def upgrade():
     op.create_table('items',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('menu_id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=30), nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('category', sa.String(length=255), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
@@ -54,8 +54,9 @@ def upgrade():
     op.create_table('order_items',
     sa.Column('order_id', sa.Integer(), nullable=False),
     sa.Column('item_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['item_id'], ['items.id'], ),
-    sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
+    sa.Column('quantity', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['item_id'], ['items.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('order_id', 'item_id')
     )
     # ### end Alembic commands ###
