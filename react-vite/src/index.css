@@ -11,35 +11,145 @@ body {
 
 /* Mr. Krabs Image */
 .krabs-img {
+  position: fixed;
+  bottom: 1px;
+  left: -7%;
+  width: 650px;
+  height: auto;
+}
+
+/* Krabby Patty Image */
+.patty-img {
+  position: fixed;
+  bottom: 20px;
+  right: 2%;
+  width: 400px;
+  height: auto;
+}
+
+/* POOP! Message */
+.poop-message {
+  background-color: antiquewhite;
+  border-radius: 15px;
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff4040;
+  white-space: nowrap;
+  z-index: none;
+}
+
+/* Mobile Optimization */
+@media screen and (max-width: 768px) {
+  /* Dynamic Navbar */
+  .navbar {
     position: fixed;
-    bottom: 1px;
-    left: -7%;
-    width: 650px;
-    height: auto;
-  }
-  
-  /* Krabby Patty Image */
-  .patty-img {
-    position: fixed;
-    bottom: 20px;
-    right: 2%;
-    width: 400px;
-    height: auto;
-  }
-  
-  /* POOP! Message */
-  .poop-message {
-    background-color: antiquewhite;
-    border-radius: 15px;
-    position: fixed;
-    bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ff4040;
-    white-space: nowrap;
-    z-index: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0457a0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    min-height: 60px; /* Base height */
+    height: auto; /* Expands as needed */
   }
 
+  /* Navbar Links - Wrap when needed */
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #0457a0;
+  }
+
+  /* Navbar Buttons */
+  .nav-links a {
+    font-size: 1rem;
+    padding: 12px 16px;
+    background-color: #fff56c;
+    color: #0457a0;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+    min-width: 100px;
+  }
+
+  /* Ensure Content Starts Below Navbar */
+  body {
+    padding-top: 90px;
+    overflow-x: hidden;
+  }
+
+  /* Adjust Content Positioning */
+  .content-container {
+    margin-top: calc(60px + 70px);
+    padding-bottom: 100px;
+  }
+
+  /* Prevent Horizontal Scroll */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Order Summary - Fixed at Bottom */
+  .order-summary {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    padding: 10px;
+  }
+
+  /* Images */
+  .krabs-img {
+    width: 300px;
+    left: -10%;
+    bottom: 0;
+  }
+
+  .patty-img {
+    width: 250px;
+    right: 5%;
+    bottom: 10px;
+  }
+
+  .poop-message {
+    display: none;
+  }
+
+  /* Forms */
+  .signup-form,
+  .login-form {
+    max-width: 90%;
+    margin: auto;
+  }
+
+  /* Buttons */
+  .item-btn,
+  .submit-btn,
+  .remove-btn {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+}

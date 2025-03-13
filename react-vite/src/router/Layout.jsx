@@ -18,10 +18,10 @@ export default function Layout() {
     <>
       <ModalProvider>
         <Navigation />
-        {isLoaded && <Outlet />}
+        <div className="content-container">{isLoaded && <Outlet />}</div>
         <Modal />
 
-        {/* 🔥 Only Show These When User is Logged In */}
+        {/* Only Show These When User is Logged In */}
         {user && (
           <>
             {/* Mr. Krabs Image */}
@@ -38,7 +38,9 @@ export default function Layout() {
             />
             {/* POOP! Message */}
             <div className="poop-message">
-              <span className="poop-highlight">“Always remember, P. O. O. P. --- </span>
+              <span className="poop-highlight">
+                “Always remember, P. O. O. P. ---{" "}
+              </span>
               <span className="poop-highlight">People Order Our Patties!"</span>
             </div>
           </>
