@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required
-from app.models import db, Inventory
+from app.models import db, Supply
 
 inventory_routes = Blueprint('inventory', __name__)
 
@@ -8,7 +8,7 @@ inventory_routes = Blueprint('inventory', __name__)
 @inventory_routes.route('/', methods=['GET'])
 @login_required
 def get_inventory():
-    inventory_items = Inventory.query.all()
+    inventory_items = Supply.query.all()
     return jsonify([item.to_dict() for item in inventory_items]), 200
 
 # POST: Add a new inventory item
@@ -16,7 +16,7 @@ def get_inventory():
 @login_required
 def add_inventory():
     data = request.get_json()
-    new_item = Inventory(
+    new_item = Supply(
         name=data["name"],
         quantity=data.get("quantity", 0),
         cost=data.get("cost", 0.0)
@@ -29,9 +29,9 @@ def add_inventory():
 @inventory_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_inventory(id):
-    item = Inventory.query.get(id)
+    item = Supply.query.get(id)
     if not item:
-        return jsonify({"error": "Inventory item not found"}), 404
+        return jsonify({"error": "Supply item not found"}), 404
     data = request.get_json()
     item.name = data.get("name", item.name)
     item.quantity = data.get("quantity", item.quantity)
@@ -43,20 +43,20 @@ def update_inventory(id):
 @inventory_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_inventory(id):
-    item = Inventory.query.get(id)
+    item = Supply.query.get(id)
     if not item:
-        return jsonify({"error": "Inventory item not found"}), 404
+        return jsonify({"error": "Supply item not found"}), 404
     db.session.delete(item)
     db.session.commit()
-    return jsonify({"message": "Inventory item deleted"}), 200
+    return jsonify({"message": "Supply item deleted"}), 200
 
 # PATCH: Reduce inventory (e.g., when an order is completed)
 @inventory_routes.route('/<int:id>/reduce', methods=['PATCH'])
 @login_required
 def reduce_inventory(id):
-    item = Inventory.query.get(id)
+    item = Supply.query.get(id)
     if not item:
-        return jsonify({"error": "Inventory item not found"}), 404
+        return jsonify({"error": "Supply item not found"}), 404
 
     data = request.get_json()
     reduce_by = data.get("amount", 0)
@@ -82,7 +82,7 @@ def bulk_reduce_inventory():
         item_id = entry.get("id")
         reduce_by = entry.get("amount", 0)
 
-        item = Inventory.query.get(item_id)
+        item = Supply.query.get(item_id)
         if not item:
             errors.append({"id": item_id, "error": "Item not found"})
             continue
