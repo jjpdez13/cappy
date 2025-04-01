@@ -4,6 +4,7 @@ from .menus import seed_menus, undo_menus
 from .items import seed_items, undo_items
 from .orders import seed_orders, undo_orders
 from .order_items import undo_order_items
+from .inventory import seed_supplies, undo_supplies
 
 from app.models.db import db, environment, SCHEMA
 
@@ -20,12 +21,14 @@ def seed():
         undo_menus()
         undo_items()
         undo_orders()
+        undo_supplies()
 
     # Now, seed all tables
     seed_users()
     seed_menus()
     seed_items()
     seed_orders()
+    seed_supplies()
 
 # Create the `flask seed undo` command
 @seed_commands.command('undo')
@@ -35,3 +38,4 @@ def undo():
     undo_menus()
     undo_items()
     undo_orders()
+    undo_supplies()
