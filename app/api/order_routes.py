@@ -1,7 +1,7 @@
 # cap/app/api/order_routes.py
 from flask import Blueprint, request, jsonify
 from flask_login import login_required
-from app.models import db, Order, Item, order_items
+from app.models import db, Order, Item, order_items, SupplyItem, Supply
 from sqlalchemy import select
 
 order_routes = Blueprint('orders', __name__)
@@ -179,3 +179,50 @@ def delete_order(id):
     db.session.delete(order)
     db.session.commit()
     return jsonify({"message": "Order deleted"}), 200
+
+# PATCH: Mark an order as complete and reduce supplies
+@order_routes.route('/<int:id>/complete', methods=["PATCH"])
+@login_required
+def complete_order(id):
+    order = Order.query.get(id)
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    if order.status == "completed":
+        return jsonify({"error": "Order is already completed"}), 400
+
+    reduction_map = {}
+
+    for item in order.items:
+        quantity = db.session.query(order_items.c.quantity).filter_by(
+            order_id=order.id,
+            item_id=item.id
+        ).scalar()
+
+        for link in item.supply_links:
+            supply = link.supply
+            total_used = link.amount_used * quantity
+
+            if supply.id in reduction_map:
+                reduction_map[supply.id]["amount"] += total_used
+            else:
+                reduction_map[supply.id] = {
+                    "supply": supply,
+                    "amount": total_used
+                }
+
+    # Validate inventory levels
+    for entry in reduction_map.values():
+        if entry["supply"].quantity < entry["amount"]:
+            return jsonify({
+                "error": f"Not enough {entry['supply'].name} in stock"
+            }), 400
+
+    # Reduce supply quantities
+    for entry in reduction_map.values():
+        entry["supply"].quantity -= entry["amount"]
+
+    order.status = "completed"
+    db.session.commit()
+
+    return jsonify(order.to_dict()), 200

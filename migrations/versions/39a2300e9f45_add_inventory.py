@@ -1,4 +1,4 @@
-"""add inventory
+"""add supplies
 
 Revision ID: 39a2300e9f45
 Revises: 82b8278e3d4d

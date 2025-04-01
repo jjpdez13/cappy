@@ -2,19 +2,19 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required
 from app.models import db, Supply
 
-inventory_routes = Blueprint('inventory', __name__)
+supply_routes = Blueprint('supply', __name__)
 
-# GET: Get all inventory items
-@inventory_routes.route('/', methods=['GET'])
+# GET: Get all supply items
+@supply_routes.route('/', methods=['GET'])
 @login_required
-def get_inventory():
-    inventory_items = Supply.query.all()
-    return jsonify([item.to_dict() for item in inventory_items]), 200
+def get_supply():
+    supply_items = Supply.query.all()
+    return jsonify([item.to_dict() for item in supply_items]), 200
 
-# POST: Add a new inventory item
-@inventory_routes.route('/', methods=['POST'])
+# POST: Add a new supply item
+@supply_routes.route('/', methods=['POST'])
 @login_required
-def add_inventory():
+def add_supply():
     data = request.get_json()
     new_item = Supply(
         name=data["name"],
@@ -25,10 +25,10 @@ def add_inventory():
     db.session.commit()
     return jsonify(new_item.to_dict()), 201
 
-# PUT: Update an existing inventory item
-@inventory_routes.route('/<int:id>', methods=['PUT'])
+# PUT: Update an existing supply item
+@supply_routes.route('/<int:id>', methods=['PUT'])
 @login_required
-def update_inventory(id):
+def update_supply(id):
     item = Supply.query.get(id)
     if not item:
         return jsonify({"error": "Supply item not found"}), 404
@@ -39,10 +39,10 @@ def update_inventory(id):
     db.session.commit()
     return jsonify(item.to_dict()), 200
 
-# DELETE: Delete an inventory item
-@inventory_routes.route('/<int:id>', methods=['DELETE'])
+# DELETE: Delete an supply item
+@supply_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
-def delete_inventory(id):
+def delete_supply(id):
     item = Supply.query.get(id)
     if not item:
         return jsonify({"error": "Supply item not found"}), 404
@@ -50,10 +50,10 @@ def delete_inventory(id):
     db.session.commit()
     return jsonify({"message": "Supply item deleted"}), 200
 
-# PATCH: Reduce inventory (e.g., when an order is completed)
-@inventory_routes.route('/<int:id>/reduce', methods=['PATCH'])
+# PATCH: Reduce supply (e.g., when an order is completed)
+@supply_routes.route('/<int:id>/reduce', methods=['PATCH'])
 @login_required
-def reduce_inventory(id):
+def reduce_supply(id):
     item = Supply.query.get(id)
     if not item:
         return jsonify({"error": "Supply item not found"}), 404
@@ -64,16 +64,16 @@ def reduce_inventory(id):
         return jsonify({"error": "Reduction amount must be positive"}), 400
 
     if item.quantity < reduce_by:
-        return jsonify({"error": "Insufficient inventory"}), 400
+        return jsonify({"error": "Insufficient supply"}), 400
 
     item.quantity -= reduce_by
     db.session.commit()
     return jsonify(item.to_dict()), 200
 
-# PATCH: Bulk reduce inventory (e.g., after a large order or anchovy rush)
-@inventory_routes.route('/bulk-reduce', methods=['PATCH'])
+# PATCH: Bulk reduce supply (e.g., after a large order or anchovy rush)
+@supply_routes.route('/bulk-reduce', methods=['PATCH'])
 @login_required
-def bulk_reduce_inventory():
+def bulk_reduce_supply():
     data = request.get_json()  # Expecting a list of {id, amount}
     errors = []
     updated_items = []
@@ -92,7 +92,7 @@ def bulk_reduce_inventory():
             continue
 
         if item.quantity < reduce_by:
-            errors.append({"id": item_id, "error": "Insufficient inventory"})
+            errors.append({"id": item_id, "error": "Insufficient supply"})
             continue
 
         item.quantity -= reduce_by
