@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required
 from app.models import db, Supply
 
-supply_routes = Blueprint('supply', __name__)
+supply_routes = Blueprint('supplies', __name__)
 
 # GET: Get all supply items
 @supply_routes.route('/', methods=['GET'])

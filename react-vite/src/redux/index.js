@@ -17,3 +17,6 @@ export { default as itemsReducer } from "./items";
 
 export * as orderActions from "./orders";
 export { default as ordersReducer } from "./orders";
+
+export * as supplyActions from "./supplies";
+export { default as suppliesReducer } from "./supplies";

@@ -16,7 +16,7 @@ def seed_orders():
         {"krustomer_name": "Patrick Star", "items": [("Krabby Patty", 5)]},
         {"krustomer_name": "Squidward Tentacles", "items": [("Double Krabby Patty", 2), ("Kelp Shake", 1)]},
         {"krustomer_name": "Pearl Krabs", "items": [("Pretty Patty", 1), ("Bubble Nuggets", 3), ("Seafoam Soda", 1)]},
-        {"krustomer_name": "Karen", "items": [("Kelp Rings", 2)]},
+        {"krustomer_name": "ANCHOVIES", "items": [("Krabby Patty", 1000)]},
         {"krustomer_name": "Mrs. Puff", "items": [("Sailor's Salad", 1), ("Coral Fries", 2), ("Fried Oyster Skins", 1), ("Seafoam Soda", 2)]},
 
         # Dinner Orders

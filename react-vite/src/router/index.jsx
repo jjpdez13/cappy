@@ -6,6 +6,7 @@ import ItemsPage from "../components/ItemsPage";
 import OrdersPage from "../components/OrdersPage";
 import Layout from "./Layout";
 import LandingPage from "../components/LandingPage";
+import SuppliesPage from "../components/SuppliesPage";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "orders",
         element: <OrdersPage />,
+      },
+      {
+        path: "supplies",
+        element: <SuppliesPage />,
       },
     ],
   },

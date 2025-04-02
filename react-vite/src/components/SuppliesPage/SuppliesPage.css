@@ -1,0 +1,143 @@
+/* Main Container */
+.supplies-container {
+    width: 90%;
+    margin: 30px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Page Header */
+  .supplies-header h1 {
+    font-size: 2.5rem;
+    color: #0457a0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Add New Supply Section */
+  .add-supply-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .supply-add-input {
+    width: 180px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #0457a0;
+    border-radius: 5px;
+  }
+  
+  .supply-add-input[type="number"] {
+    width: 100px;
+  }
+  
+  .add-btn {
+    background-color: #0457a0;
+    color: #93e9be;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .add-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  
+  /* Supply List */
+  .supply-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  /* Supply Card */
+  .supply-card {
+    background-color: #0457a0;
+    color: #fff56c;
+    border: 2px solid #93e9be;
+    border-radius: 10px;
+    padding: 20px;
+    width: 240px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Supply Name Text */
+  .supply-name {
+    margin-bottom: 10px;
+  }
+  
+  /* Inline Edit Input */
+  .supply-name-editing {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .edit-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 2px solid #93e9be;
+    border-radius: 5px;
+  }
+  
+  /* Edit / Delete Button Container */
+  .supply-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .save-btn {
+    background-color: #0457a0;
+    color: #93e9be;
+    padding: 6px 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .delete-btn {
+    background-color: #ff4040;
+    color: #fff56c;
+  }
+  
+  .edit-btn:hover,
+  .save-btn:hover,
+  .delete-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+  
+  /* Loading State */
+  .loading {
+    font-size: 1.5rem;
+    color: #0457a0;
+    margin-top: 50px;
+    text-align: center;
+  }

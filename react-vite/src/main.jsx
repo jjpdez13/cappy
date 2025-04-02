@@ -9,6 +9,7 @@ import * as userActions from "./redux/users";
 import * as menuActions from "./redux/menus";
 import * as itemActions from "./redux/items";
 import * as orderActions from "./redux/orders";
+import * as supplyActions from "./redux/supplies";
 
 import "./index.css";
 
@@ -21,6 +22,7 @@ if (import.meta.env.MODE !== "production") {
   window.menuActions = menuActions;
   window.itemActions = itemActions;
   window.orderActions = orderActions;
+  window.supplyActions = supplyActions;
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -10,12 +10,13 @@ class Supply(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
     cost = db.Column(db.Float, nullable=False, default=0.0)
+    threshold = db.Column(db.Integer, nullable=False, default=10)
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "quantity": self.quantity,
-            "cost": self.cost
+            "cost": self.cost,
+            "threshold": self.threshold
         }
-        

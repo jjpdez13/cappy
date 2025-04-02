@@ -50,9 +50,15 @@ const OrdersPage = () => {
   };
 
   const handleCompleteOrder = (orderId) => {
-    dispatch(orderActions.removeOrder(orderId)).catch((err) =>
-      console.error("Error deleting order:", err)
-    );
+    dispatch(orderActions.completeOrder(orderId))
+      .then(() => {
+        setTimeout(() => {
+          dispatch(orderActions.removeOrder(orderId));
+        }, 3000); // 3 seconds
+      })
+      .catch((err) => {
+        console.error("Error completing order:", err);
+      });
   };
 
   const handleDeleteOrder = (order) => {

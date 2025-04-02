@@ -10,6 +10,7 @@ import usersReducer from "./users";
 import menusReducer from "./menus";
 import itemsReducer from "./items";
 import ordersReducer from "./orders";
+import suppliesReducer from "./supplies";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   menus: menusReducer,
   items: itemsReducer,
   orders: ordersReducer,
+  supplies: suppliesReducer,
 });
 
 let enhancer;

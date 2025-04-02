@@ -1,4 +1,4 @@
-// react-vite/src/redux/menus.js
+// react-vite/src/redux/supplies.js
 import { csrfFetch } from "./csrf";
 import { setLoading } from "./session";
 
@@ -35,9 +35,10 @@ export const deleteSupplyItem = (supplyItemId) => ({
 
 // Get all Supplies
 export const getSupplies = () => async (dispatch) => {
+  dispatch(setLoading(true));
   try {
     const res = await csrfFetch("/api/supplies/");
-    if (!res.ok) throw Error("Failed to get supplies");
+    if (!res.ok) throw new Error("Failed to get supplies");
     const data = await res.json();
     dispatch(loadSupplies(data));
   } catch (e) {
@@ -48,17 +49,18 @@ export const getSupplies = () => async (dispatch) => {
 };
 
 // Add a Supply Item
-export const createMenu = (supplyData) => async (dispatch) => {
+export const createSupplyItem = (supplyData) => async (dispatch) => {
+  dispatch(setLoading(true));
   try {
     const res = await csrfFetch("/api/supplies/", {
       method: "POST",
       body: JSON.stringify(supplyData),
     });
 
-    if (!res.ok) throw Error("Failed to create supply item");
+    if (!res.ok) throw new Error("Failed to create supply item");
 
     const newSupplyItem = await res.json();
-    dispatch(addMenu(newSupplyItem));
+    dispatch(addSupplyItem(newSupplyItem));
     return newSupplyItem;
   } catch (e) {
     console.error("Error creating supply item", e);
@@ -68,37 +70,84 @@ export const createMenu = (supplyData) => async (dispatch) => {
 };
 
 // Update an existing Supply Item
-export const editMenu = (supplyItemId, supplyData) => async (dispatch) => {
+export const editSupplyItem = (supplyItemId, supplyData) => async (dispatch) => {
+  dispatch(setLoading(true));
   try {
     const res = await csrfFetch(`/api/supplies/${supplyItemId}`, {
       method: "PUT",
       body: JSON.stringify(supplyData),
     });
 
-    if (!res.ok) throw Error("Failed to update supplies");
+    if (!res.ok) throw new Error("Failed to update supply item");
 
-    const updatedSupplies = await res.json();
-    dispatch(updateMenu(updatedSupplies));
-    return updatedSupplies;
+    const updatedSupplyItem = await res.json();
+    dispatch(updateSupplyItem(updatedSupplyItem));
+    return updatedSupplyItem;
   } catch (e) {
-    console.error("Error updating supplies", e);
+    console.error("Error updating supply item", e);
   } finally {
     dispatch(setLoading(false));
   }
 };
 
-// Delete a Supply
+// Delete a Supply Item
 export const removeSupplyItem = (supplyItemId) => async (dispatch) => {
+  dispatch(setLoading(true));
   try {
     const res = await csrfFetch(`/api/supplies/${supplyItemId}`, {
       method: "DELETE",
     });
 
-    if (!res.ok) throw Error("Failed to delete supply item");
+    if (!res.ok) throw new Error("Failed to delete supply item");
 
     dispatch(deleteSupplyItem(supplyItemId));
   } catch (e) {
-    console.error("Error deleting item", e);
+    console.error("Error deleting supply item", e);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+// Reduce A Supply Item
+export const reduceSupplyItem = (supplyItemId, amount) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const res = await csrfFetch(`/api/supplies/${supplyItemId}/reduce`, {
+      method: "PATCH",
+      body: JSON.stringify({ amount }),
+    });
+
+    if (!res.ok) throw new Error("Failed to reduce supply item");
+
+    const updatedItem = await res.json();
+    dispatch(updateSupplyItem(updatedItem));
+    return updatedItem;
+  } catch (e) {
+    console.error("Error reducing supply item", e);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+// Reduce multiple items
+export const bulkReduceSupplies = (reductionList) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const res = await csrfFetch(`/api/supplies/bulk-reduce`, {
+      method: "PATCH",
+      body: JSON.stringify(reductionList), // [{ id, amount }]
+    });
+
+    if (!res.ok) throw new Error("Failed to bulk reduce supplies");
+
+    const { updated, errors } = await res.json();
+
+    // Dispatch updates
+    updated.forEach((item) => dispatch(updateSupplyItem(item)));
+
+    return { updated, errors };
+  } catch (e) {
+    console.error("Error bulk reducing supplies", e);
   } finally {
     dispatch(setLoading(false));
   }
@@ -109,6 +158,7 @@ export const removeSupplyItem = (supplyItemId) => async (dispatch) => {
 const initialState = {
   supplies: {},
 };
+
 const suppliesReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_SUPPLIES: {
@@ -118,7 +168,7 @@ const suppliesReducer = (state = initialState, action) => {
       }
 
       const suppliesObj = action.payload.reduce((acc, supplyItem) => {
-        acc[supply.id] = supplyItem;
+        acc[supplyItem.id] = supplyItem; // ✅ Fixed typo here
         return acc;
       }, {});
 

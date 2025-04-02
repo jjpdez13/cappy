@@ -58,7 +58,7 @@ function Navigation() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/supply" className="nav-link">
+              <NavLink to="/supplies" className="nav-link">
                 Supplies
               </NavLink>
             </li>

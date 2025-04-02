@@ -176,6 +176,25 @@ export const updateOrder = (orderId, status) => async (dispatch) => {
   }
 };
 
+// Mark an order as completed (deducts supplies!)
+export const completeOrder = (orderId) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/orders/${orderId}/complete`, {
+      method: "PATCH",
+    });
+
+    if (!res.ok) throw Error("Failed to complete order");
+
+    const completedOrder = await res.json();
+    dispatch(updateStatus(completedOrder));
+    return completedOrder;
+  } catch (e) {
+    console.error("Error completing order", e);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
 // Delete an Order
 export const removeOrder = (orderId) => async (dispatch) => {
   try {
