@@ -57,6 +57,11 @@ function Navigation() {
                 Orders
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/supply" className="nav-link">
+                Supplies
+              </NavLink>
+            </li>
           </>
         )}
       </ul>
