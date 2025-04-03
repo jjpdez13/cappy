@@ -11,6 +11,7 @@ from .api.menu_routes import menu_routes
 from .api.item_routes import item_routes
 from .api.order_routes import order_routes
 from .api.supply_routes import supply_routes
+from .api.expense_routes import expense_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -36,6 +37,7 @@ app.register_blueprint(menu_routes, url_prefix='/api/menus')
 app.register_blueprint(item_routes, url_prefix='/api/menu-items')
 app.register_blueprint(order_routes, url_prefix='/api/orders')
 app.register_blueprint(supply_routes, url_prefix='/api/supplies')
+app.register_blueprint(expense_routes, url_prefix='/api/expenses')
 db.init_app(app)
 Migrate(app, db)
 

@@ -3,14 +3,14 @@ from sqlalchemy.sql import text
 
 def seed_supplies():
     supplies = [
-        Supply(name="Krabby Patties", quantity=1100, cost=3000, threshold=100),
-        Supply(name="Buns", quantity=1100, cost=1500, threshold=200),
-        Supply(name="Lettuce", quantity=1100, cost=500, threshold=150),
-        Supply(name="Tomato", quantity=1100, cost=600, threshold=150),
-        Supply(name="Pickles", quantity=1100, cost=400, threshold=100),
-        Supply(name="Onions", quantity=1100, cost=300, threshold=100),
-        Supply(name="Cheese", quantity=1100, cost=1200, threshold=200),
-        Supply(name="Condiments (ketchup, mustard, mayo)", quantity=1100, cost=800, threshold=250),
+        Supply(name="Krabby Patties", quantity=500, cost=3000, threshold=100),
+        Supply(name="Buns", quantity=1000, cost=1500, threshold=200),
+        Supply(name="Lettuce", quantity=800, cost=500, threshold=150),
+        Supply(name="Tomato", quantity=700, cost=600, threshold=150),
+        Supply(name="Pickles", quantity=600, cost=400, threshold=100),
+        Supply(name="Onions", quantity=500, cost=300, threshold=100),
+        Supply(name="Cheese", quantity=900, cost=1200, threshold=200),
+        Supply(name="Condiments (ketchup, mustard, mayo)", quantity=1000, cost=800, threshold=250),
         Supply(name="Frying Oil", quantity=200, cost=1000, threshold=50),
         Supply(name="French Fries", quantity=1000, cost=2500, threshold=200),
         Supply(name="Kelp Rings (fried)", quantity=600, cost=1000, threshold=100),
