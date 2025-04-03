@@ -1,0 +1,154 @@
+/* Main Container */
+.expenses-container {
+    width: 90%;
+    margin: 30px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Page Header */
+  .expenses-header h1 {
+    font-size: 2.5rem;
+    color: #0457a0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Add New Expense Section */
+  .add-expense-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .expense-add-input {
+    width: 180px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #0457a0;
+    border-radius: 5px;
+  }
+  
+  .expense-add-input[type="number"] {
+    width: 120px;
+  }
+  
+  .add-btn {
+    background-color: #0457a0;
+    color: #93e9be;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .add-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  
+  /* Expense List */
+  .expense-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  /* Expense Card */
+  .expense-card {
+    background-color: #0457a0;
+    color: #fff56c;
+    border: 2px solid #93e9be;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Expense Detail Text */
+  .expense-details {
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .expense-description {
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #93e9be;
+    font-weight: normal;
+  }
+  
+  /* Inline Edit Input */
+  .expense-editing {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .edit-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 2px solid #93e9be;
+    border-radius: 5px;
+  }
+  
+  /* Edit / Delete Button Container */
+  .expense-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .save-btn {
+    background-color: #0457a0;
+    color: #93e9be;
+    padding: 6px 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .delete-btn {
+    background-color: #ff4040;
+    color: #fff56c;
+  }
+  
+  .edit-btn:hover,
+  .save-btn:hover,
+  .delete-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+  
+  /* Loading State */
+  .loading {
+    font-size: 1.5rem;
+    color: #0457a0;
+    margin-top: 50px;
+    text-align: center;
+  }

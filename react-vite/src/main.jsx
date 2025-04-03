@@ -10,6 +10,7 @@ import * as menuActions from "./redux/menus";
 import * as itemActions from "./redux/items";
 import * as orderActions from "./redux/orders";
 import * as supplyActions from "./redux/supplies";
+import * as expenseActions from "./redux/expenses";
 
 import "./index.css";
 
@@ -23,6 +24,7 @@ if (import.meta.env.MODE !== "production") {
   window.itemActions = itemActions;
   window.orderActions = orderActions;
   window.supplyActions = supplyActions;
+  window.expenseActions = expenseActions;
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(

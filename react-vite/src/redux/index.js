@@ -20,3 +20,6 @@ export { default as ordersReducer } from "./orders";
 
 export * as supplyActions from "./supplies";
 export { default as suppliesReducer } from "./supplies";
+
+export * as expenseActions from "./expenses";
+export { default as expensesReducer } from "./expenses";

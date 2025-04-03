@@ -20,7 +20,7 @@ def seed_expenses():
         Expense(category="Food waste", amount=1500, description="Spoilage and scraps"),
         Expense(category="Packaging costs", amount=1000, description="To-go bags, boxes"),
         Expense(category="Name tags", amount=50, description="Employee name tags"),
-        Expense(category="Supplies", amount=total_supply_cost, description="Total monthly cost from supply seed")
+        Expense(category="Supplies", amount=total_supply_cost, description="Total monthly cost from supplies")
     ]
 
     db.session.add_all(expenses)

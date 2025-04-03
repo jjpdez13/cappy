@@ -11,6 +11,7 @@ import menusReducer from "./menus";
 import itemsReducer from "./items";
 import ordersReducer from "./orders";
 import suppliesReducer from "./supplies";
+import expensesReducer from "./expenses";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   items: itemsReducer,
   orders: ordersReducer,
   supplies: suppliesReducer,
+  expenses: expensesReducer,
 });
 
 let enhancer;

@@ -1,12 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import {
-  getSupplies,
-  createSupplyItem,
-  reduceSupplyItem,
-  editSupplyItem,
-  removeSupplyItem,
-} from "../../redux/supplies";
+import { supplyActions } from "../../redux";
 import "./SuppliesPage.css";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
@@ -28,13 +22,11 @@ const SuppliesPage = () => {
   const editSupplyRef = useRef(null);
 
   useEffect(() => {
-    if (!user || user.role !== "Admin") {
-      navigate("/");
-    }
+    if (!user || user.role !== "Admin") navigate("/");
   }, [user, navigate]);
 
   useEffect(() => {
-    dispatch(getSupplies());
+    dispatch(supplyActions.getSupplies());
   }, [dispatch]);
 
   useEffect(() => {
@@ -69,7 +61,11 @@ const SuppliesPage = () => {
       <ConfirmationModal
         title="Confirm Deletion"
         message={`Are you sure you want to delete "${supplyItem.name}" from the supply room?`}
-        onConfirm={() => dispatch(removeSupplyItem(supplyItem.id))}
+        onConfirm={() => {
+          setModalContent(null);
+          dispatch(supplyActions.removeSupplyItem(supplyItem.id));
+        }}
+        onCancel={() => setModalContent(null)}
       />
     );
   };
@@ -81,7 +77,7 @@ const SuppliesPage = () => {
         parseInt(editSupplyQuantity, 10) !== supply.quantity)
     ) {
       await dispatch(
-        editSupplyItem(supply.id, {
+        supplyActions.editSupplyItem(supply.id, {
           name: editSupplyName,
           quantity: parseInt(editSupplyQuantity, 10),
         })
@@ -103,7 +99,7 @@ const SuppliesPage = () => {
     }
 
     await dispatch(
-      createSupplyItem({
+      supplyActions.createSupplyItem({
         name: newSupplyName,
         quantity: parseInt(newSupplyQuantity, 10),
       })
@@ -148,24 +144,26 @@ const SuppliesPage = () => {
             <div key={supply.id} className="supply-card">
               {editSupplyId === supply.id ? (
                 <div ref={editSupplyRef} className="supply-name-editing">
-                <input
-                  type="text"
-                  value={editSupplyName}
-                  onChange={(e) => setEditSupplyName(e.target.value)}
-                  className="edit-input"
-                  placeholder="Supply name"
-                />
-                <input
-                  type="number"
-                  min="0"
-                  value={editSupplyQuantity}
-                  onChange={(e) => setEditSupplyQuantity(e.target.value)}
-                  className="edit-input"
-                  placeholder="Quantity"
-                />
-                <button className="save-btn" onClick={() => handleEdit(supply)}>Save</button>
-                <button onClick={() => setEditSupplyId(null)}>Cancel</button>
-              </div>
+                  <input
+                    type="text"
+                    value={editSupplyName}
+                    onChange={(e) => setEditSupplyName(e.target.value)}
+                    className="edit-input"
+                    placeholder="Supply name"
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    value={editSupplyQuantity}
+                    onChange={(e) => setEditSupplyQuantity(e.target.value)}
+                    className="edit-input"
+                    placeholder="Quantity"
+                  />
+                  <button className="save-btn" onClick={() => handleEdit(supply)}>
+                    Save
+                  </button>
+                  <button onClick={() => setEditSupplyId(null)}>Cancel</button>
+                </div>
               ) : (
                 <>
                   <div className="supply-name">
